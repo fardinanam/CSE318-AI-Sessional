@@ -2,7 +2,6 @@
 #define NODE_H
 
 #include <iostream>
-// #include <pair>
 #include <vector>
 
 int calculateHammingDistance(int k, int** source, int** destination) {
@@ -123,6 +122,8 @@ public:
     }
 
     bool isEqual(Node* other) {
+        if (other == nullptr)
+            return false;
         for(int i = 0; i < k; i++) {
             for(int j = 0; j < k; j++) {
                 if(grid[i][j] != other->grid[i][j]) {
@@ -172,24 +173,26 @@ public:
         return children;
     }
 
-    bool operator == (Node* other) {
-        for(int i = 0; i < k; i++) {
-            for(int j = 0; j < k; j++) {
-                if(grid[i][j] != other->grid[i][j])
-                    return false;
-            }
-        }
-
-        return true;
+    int getGridSize() {
+        return k;
     }
 
     int getMoves() {
         return moves;
     }
 
+    std::pair<int, int> getBlankTile() {
+        return blankTile;
+    }
+
     Node* getPrevious() {
         return previous;
     }
+
+    // operator==(Node *other) {
+    //     std::cout << "== called\n";
+    //     return isEqual(other);
+    // }
 
     ~Node() {
         for(int i = 0; i < k; i++) {
