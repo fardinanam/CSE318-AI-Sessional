@@ -4,40 +4,34 @@
 #include <iostream>
 #include <vector>
 
-int calculateHammingDistance(int k, int** source, int** destination) {
-    int totalDistance = 0;
+int calculateHammingDistance(int k, int** source) {
+    int distance = 0;
+    int rowMajorIndex = 0;
     for (int i = 0; i < k; i++) {
         for (int j = 0; j < k; j++) {
-            if (source[i][j] != 0 && source[i][j] != destination[i][j])
-                totalDistance++;
+            if (source[i][j] && source[i][j] != rowMajorIndex + 1)
+                distance++;
+            rowMajorIndex++;
         }
     }
 
-    return totalDistance;
+    return distance;
 }
 
-int calculateManhattanDistance(int k, int** source, int** destination) {
-    int* rowMajorOrderIndices = new int[k * k];  // indices of this array represents the numbers in the grid
-    int count = 0;
+int calculateManhattanDistance(int k, int** source) {
     int distance = 0;
 
     for (int i = 0; i < k; i++) {
         for (int j = 0; j < k; j++) {
-            rowMajorOrderIndices[destination[i][j]] = count++;
+            int value = source[i][j];
+            if (value == 0) continue;
+
+            int rowIdx = (value - 1) / k;
+            int columnIdx = (value - 1) % k;
+            distance += abs(rowIdx - i) + abs(columnIdx - j);            
         }
     }
 
-    for (int i = 0; i < k; i++) {
-        for (int j = 0; j < k; j++) {
-            if (source[i][j] == 0) continue;
-
-            int rowIdx = rowMajorOrderIndices[source[i][j]] / k;
-            int columnIdx = rowMajorOrderIndices[source[i][j]] % k;
-            distance += abs(rowIdx - i) + abs(columnIdx - j);
-        }
-    }
-
-    delete[] rowMajorOrderIndices;
     return distance;
 }
 
@@ -47,14 +41,12 @@ private:
     int moves; // number of moves to reach the current config from the initial config
     std::pair<int, int> blankTile; // row and column index of the blank tile
     int** grid;
-    int** goalGrid;
     Node* previous;
 public:
-    Node(int k, int** grid, int** goalGrid) {
+    Node(int k, int** grid) {
         this->moves = 0;
         this->k = k;
         previous = nullptr;
-        this->goalGrid = goalGrid;
 
         this->grid = new int*[k];
         for (int i = 0; i < k; i++) {
@@ -69,7 +61,7 @@ public:
         }
     }
 
-    Node(int k, int** grid, int moves, Node &previous, int** goalGrid) : Node(k, grid, goalGrid) {
+    Node(int k, int** grid, int moves, Node &previous) : Node(k, grid) {
         this->moves = moves;
         this->previous = &previous;
     }
@@ -114,11 +106,11 @@ public:
     }
 
     int calculateManhattanCost() {
-        return moves + calculateManhattanDistance(k, grid, goalGrid);
+        return moves + calculateManhattanDistance(k, grid);
     }
 
     int calculateHammingCost() {
-        return moves + calculateHammingDistance(k, grid, goalGrid);
+        return moves + calculateHammingDistance(k, grid);
     }
 
     bool isEqual(Node* other) {
@@ -135,6 +127,20 @@ public:
         return true;
     }
 
+    bool isGoal() {
+        int count = 1;
+        for(int i = 0; i < k; i++) {
+            for(int j = 0; j < k; j++) {
+                if(grid[i][j] && grid[i][j] != count) {
+                    return false;
+                }
+                count++;
+            }
+        }
+
+        return true;
+    }
+
     std::vector<Node*> getChildren() {
         std::vector<Node*> children;
         
@@ -143,7 +149,12 @@ public:
             int** newGrid = getGrid();
             newGrid[blankTile.first][blankTile.second] = newGrid[blankTile.first - 1][blankTile.second];
             newGrid[blankTile.first - 1][blankTile.second] = 0;
-            children.push_back(new Node(k, newGrid, moves + 1, *this, goalGrid));
+            children.push_back(new Node(k, newGrid, moves + 1, *this));
+
+            for(int i = 0; i < k; i++) {
+                delete[] newGrid[i];
+            }
+            delete[] newGrid;
         }
 
         // down
@@ -151,7 +162,12 @@ public:
             int** newGrid = getGrid();
             newGrid[blankTile.first][blankTile.second] = newGrid[blankTile.first + 1][blankTile.second];
             newGrid[blankTile.first + 1][blankTile.second] = 0;
-            children.push_back(new Node(k, newGrid, moves + 1, *this, goalGrid));
+            children.push_back(new Node(k, newGrid, moves + 1, *this));
+
+            for (int i = 0; i < k; i++) {
+                delete[] newGrid[i];
+            }
+            delete[] newGrid;
         }
 
         // left
@@ -159,7 +175,12 @@ public:
             int** newGrid = getGrid();
             newGrid[blankTile.first][blankTile.second] = newGrid[blankTile.first][blankTile.second - 1];
             newGrid[blankTile.first][blankTile.second - 1] = 0;
-            children.push_back(new Node(k, newGrid, moves + 1, *this, goalGrid));
+            children.push_back(new Node(k, newGrid, moves + 1, *this));
+
+            for (int i = 0; i < k; i++) {
+                delete[] newGrid[i];
+            }
+            delete[] newGrid;
         }
 
         // right
@@ -167,7 +188,12 @@ public:
             int** newGrid = getGrid();
             newGrid[blankTile.first][blankTile.second] = newGrid[blankTile.first][blankTile.second + 1];
             newGrid[blankTile.first][blankTile.second + 1] = 0;
-            children.push_back(new Node(k, newGrid, moves + 1, *this, goalGrid));
+            children.push_back(new Node(k, newGrid, moves + 1, *this));
+
+            for (int i = 0; i < k; i++) {
+                delete[] newGrid[i];
+            }
+            delete[] newGrid;
         }
 
         return children;
@@ -189,12 +215,8 @@ public:
         return previous;
     }
 
-    // operator==(Node *other) {
-    //     std::cout << "== called\n";
-    //     return isEqual(other);
-    // }
-
     ~Node() {
+        // delete grid
         for(int i = 0; i < k; i++) {
             delete[] grid[i];
         }

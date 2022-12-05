@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <queue>
-#include <set>
 #include <unordered_set>
 #include <vector>
 
@@ -13,7 +12,6 @@
 class NPuzzle {
    private:
     int k;  // length of square grid
-    Node* goalBoard;
     struct manhattanComparator {
         bool operator()(Node* a, Node* b) {
             return a->calculateManhattanCost() > b->calculateManhattanCost();
@@ -73,27 +71,25 @@ class NPuzzle {
         value of every element of the array below represents the row major
         index of those values in the goalBoard
         */
-        int* goalGridRowMajorOrderIndices = new int[n];
+        // int* goalGridRowMajorOrderIndices = new int[n];
         int idx = 0;
         for (int i = 0; i < k; i++) {
             for (int j = 0; j < k; j++) {
-                nodeGridRowMajorOrder[idx] = node->getGrid()[i][j];
-                goalGridRowMajorOrderIndices[goalBoard->getGrid()[i][j]] = idx++;
+                nodeGridRowMajorOrder[idx++] = node->getGrid()[i][j];
+                // goalGridRowMajorOrderIndices[goalBoard->getGrid()[i][j]] = idx++;
             }
         }
 
-        // now check the orders w.r.t the goalGridRowMajorOrderIndices
+        // count inversions in the row major order
         for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (nodeGridRowMajorOrder[i] && nodeGridRowMajorOrder[j] &&
-                    goalGridRowMajorOrderIndices[nodeGridRowMajorOrder[i]] >
-                    goalGridRowMajorOrderIndices[nodeGridRowMajorOrder[j]])
+            for(int j = i + 1; j < n; j++) {
+                if(nodeGridRowMajorOrder[i] && nodeGridRowMajorOrder[j] 
+                  && nodeGridRowMajorOrder[i] > nodeGridRowMajorOrder[j]) {
                     inversions++;
+                }
             }
         }
-
-        delete[] nodeGridRowMajorOrder;
-        delete[] goalGridRowMajorOrderIndices;
+        
         return inversions;
     }
 
@@ -107,14 +103,15 @@ class NPuzzle {
         /* if k is even then,
             if
                 i.  the blank is on an even row counting from the bottom and
-           number of inversions is odd, ii. the blank is on an odd row counting
+           number of inversions is odd, 
+                ii. the blank is on an odd row counting
            from the bottom and number of inversions is even. then it is solvable
         */
-        // when k is even, even from the bottom means odd from the top
+        // when k is even, even from the bottom means odd by 0 indexing
         if (initialBoard->getBlankTile().first % 2) {
-            return inversions % 2;
-        } else {
             return !(inversions % 2);
+        } else {
+            return inversions % 2;
         }
 
         // for all other cases, the puzzle is not solvable
@@ -141,14 +138,16 @@ class NPuzzle {
     }
 
    public:
-    NPuzzle(int k, Node* goalBoard) {
+    NPuzzle(int k) {
         this->k = k;
-        this->goalBoard = goalBoard;
     }
 
-    void solveWithManhattanDistance(Node* initialBoard) {
+    void solveWithManhattanDistance(int** initialGrid) {
+        Node* initialBoard = new Node(k, initialGrid);
+
         if (!isSolvable(initialBoard)) {
             std::cout << "The puzzle instance is not solvable\n";
+            delete initialBoard;
             return;
         } else {
             std::cout << "The puzzle instance is solvable\n";
@@ -156,9 +155,7 @@ class NPuzzle {
 
         int totalExpandedNodes = 0;  // No. of nodes entered into the open list
         int totalExploredNodes = 0;  // No. of nodes entered into the closed list
-        std::priority_queue<Node*, std::vector<Node*>, manhattanComparator>
-            openList;
-        // std::set<Node*, nodeComparator> closedList;
+        std::priority_queue<Node*, std::vector<Node*>, manhattanComparator> openList;
         std::unordered_set<Node*, nodeHasher, nodeComparator> closedList;
         openList.push(initialBoard);
         totalExpandedNodes++;
@@ -168,7 +165,7 @@ class NPuzzle {
             openList.pop();
             totalExploredNodes++;
 
-            if (currentBoard->isEqual(goalBoard)) {
+            if (currentBoard->isGoal()) {
                 std::cout << "Steps:" << std::endl;
                 printSteps(currentBoard);
                 std::cout << "Total steps: " << currentBoard->getMoves()
@@ -177,37 +174,29 @@ class NPuzzle {
                           << std::endl
                           << "Total explored nodes: " << totalExploredNodes
                           << std::endl;
+                delete initialBoard;
                 return;
             }
 
             std::vector<Node*> children = currentBoard->getChildren();
-            // std::cout << "Exploring" << std::endl;
-            // currentBoard->printGrid();
             for (int i = 0; i < children.size(); i++) {
                 if (closedList.find(children[i]) == closedList.end()) {
-                    // std::cout << "pushed" << std::endl;
-                    // children[i]->printGrid();
                     openList.push(children[i]);
                     totalExpandedNodes++;
                 } else {
                     delete children[i];
                 }
-
-                // if (children[i]->isEqual(currentBoard->getPrevious())) {
-                //     delete children[i];
-                // } else {
-                //     openList.push(children[i]);
-                //     totalExpandedNodes++;
-                // }
             }
 
             closedList.insert(currentBoard);
         }
     }
 
-    void solveWithHammingDistance(Node* initialBoard) {
+    void solveWithHammingDistance(int** initialGrid) {
+        Node* initialBoard = new Node(k, initialGrid);
         if (!isSolvable(initialBoard)) {
             std::cout << "The puzzle instance is not solvable\n";
+            delete initialBoard;
             return;
         } else {
             std::cout << "The puzzle instance is solvable\n";
@@ -216,7 +205,6 @@ class NPuzzle {
         int totalExpandedNodes = 0;  // No. of nodes entered into the open list
         int totalExploredNodes = 0;  // No. of nodes entered into the closed list
         std::priority_queue<Node*, std::vector<Node*>, hammingComparator> openList;
-        // std::set<Node*, nodeComparator> closedList;
         std::unordered_set<Node*, nodeHasher, nodeComparator> closedList;
         openList.push(initialBoard);
         totalExpandedNodes++;
@@ -226,7 +214,7 @@ class NPuzzle {
             openList.pop();
             totalExploredNodes++;
 
-            if (currentBoard->isEqual(goalBoard)) {
+            if (currentBoard->isGoal()) {
                 std::cout << "Steps:" << std::endl;
                 printSteps(currentBoard);
                 std::cout << "Total steps: " << currentBoard->getMoves()
@@ -235,27 +223,18 @@ class NPuzzle {
                           << std::endl
                           << "Total explored nodes: " << totalExploredNodes
                           << std::endl;
+                delete initialBoard;
                 return;
             }
 
             std::vector<Node*> children = currentBoard->getChildren();
-            // std::cout << "Exploring" << std::endl;
-            // currentBoard->printGrid();
             for (int i = 0; i < children.size(); i++) {
                 if (closedList.find(children[i]) == closedList.end()) {
-                    // std::cout << "pushed" << std::endl;
-                    // children[i]->printGrid();
                     openList.push(children[i]);
                     totalExpandedNodes++;
                 } else {
                     delete children[i];
                 }
-                // if (children[i]->isEqual(currentBoard->getPrevious())) {
-                //     delete children[i];
-                // } else {
-                //     openList.push(children[i]);
-                //     totalExpandedNodes++;
-                // }
             }
 
             closedList.insert(currentBoard);
