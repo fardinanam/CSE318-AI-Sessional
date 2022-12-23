@@ -1,13 +1,13 @@
 package csps;
 
-import constraints.Constraint;
 import variables.Variable;
 
 import java.util.List;
+import java.util.Set;
 
-public interface Csp<T1 extends Variable, T2 extends Constraint> {
-    void addVariable(T1 variable);
-    void addConstraint(T2 constraint);
-    List<T1> getVariables();
-    List<T2> getConstraints();
+public interface Csp<T extends Variable> {
+    void addVariable(T variable);
+    void resetVariable(T variable);
+    List<T> getUnassignedVariables();
+    boolean isComplete();
 }

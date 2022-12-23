@@ -1,11 +1,12 @@
 package variables;
 
-import java.util.*;
+
+import java.util.HashSet;
 
 public class Cell implements Variable<Integer> {
-    private final Set<Integer> domain;
-    private int x;  // index x
-    private int y;  // index y
+    private final HashSet<Integer> domain;
+    private final int x;  // index x
+    private final int y;  // index y
     private int value;
 
     /**
@@ -74,8 +75,8 @@ public class Cell implements Variable<Integer> {
     }
 
     @Override
-    public int getDomainLength() {
-        return domain.size();
+    public HashSet<Integer> getDomain() {
+        return domain;
     }
 
     public int getX() {
