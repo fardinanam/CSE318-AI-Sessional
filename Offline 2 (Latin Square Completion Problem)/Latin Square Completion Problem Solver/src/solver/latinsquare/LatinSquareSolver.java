@@ -1,13 +1,17 @@
 package solver.latinsquare;
 
 import csps.LatinSquareCsp;
+import value.order.heuristics.MinimumDegreeValue;
+import value.order.heuristics.NoOrderValue;
+import value.order.heuristics.ValueOrderHeuristic;
 import variable.order.heuristics.MinimumRemainingValue;
 import variable.order.heuristics.VariableOrderHeuristic;
 import variables.Cell;
 
 public class LatinSquareSolver {
     private final LatinSquareCsp csp;
-    private VariableOrderHeuristic<Integer, Cell, LatinSquareCsp> voh;
+    private VariableOrderHeuristic<Integer, Cell, LatinSquareCsp> vohVariable;
+//    private ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue;
     private long backtracks;
     private long assignments;
 
@@ -19,19 +23,21 @@ public class LatinSquareSolver {
      */
     public LatinSquareSolver(int n, int[][] initialAssignment) {
         csp = new LatinSquareCsp(n, initialAssignment);
-        voh = new MinimumRemainingValue();
+        vohVariable = new MinimumRemainingValue();
     }
 
-    public void setVoh(VariableOrderHeuristic<Integer, Cell, LatinSquareCsp> voh) {
-        this.voh = voh;
+    public void setVohVariable(VariableOrderHeuristic<Integer, Cell, LatinSquareCsp> vohVariable) {
+        this.vohVariable = vohVariable;
     }
 
     private Cell[][] backtrack() {
         if(csp.isComplete()) return csp.getSquareGrid();
 
-        Cell cell = voh.getNextVariable(csp);
+        Cell cell = vohVariable.getNextVariable(csp);
         if(cell == null) return null;
-        for (int value : cell.getDomain()) {
+        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new MinimumDegreeValue(csp, cell);
+        while (vohValue.hasNext()) {
+            int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
                 csp.setValue(value, cell);
                 assignments++;
@@ -48,9 +54,11 @@ public class LatinSquareSolver {
     private Cell[][] forwardTracing() {
         if(csp.isComplete()) return csp.getSquareGrid();
 
-        Cell cell = voh.getNextVariable(csp);
+        Cell cell = vohVariable.getNextVariable(csp);
         if(cell == null) return null;
-        for (int value : cell.getDomain()) {
+        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new MinimumDegreeValue(csp, cell);
+        while (vohValue.hasNext()) {
+            int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
                 // Forward tracing
                 boolean isConsistent = csp.setValue(value, cell);
@@ -72,7 +80,7 @@ public class LatinSquareSolver {
      * @return null if no solution exists
      */
     public Cell[][] solve(boolean isForwardTracing) {
-        if(voh == null) {
+        if(vohVariable == null) {
             System.out.println("Variable order heuristic is not yet selected");
             return null;
         }
