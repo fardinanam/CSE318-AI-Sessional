@@ -4,3 +4,7 @@
 test.*
 *.iml
 .idea/
+*.class
+temp.txt
+*.zip
+out*.txt

@@ -1,8 +1,5 @@
 package solver.latinsquare;
 
-import csps.LatinSquareCsp;
-import value.order.heuristics.MinimumDegreeValue;
-import value.order.heuristics.NoOrderValue;
 import variable.order.heuristics.*;
 import variables.Cell;
 

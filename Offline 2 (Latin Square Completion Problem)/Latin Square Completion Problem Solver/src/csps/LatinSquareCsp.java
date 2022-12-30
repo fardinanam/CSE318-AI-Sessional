@@ -3,8 +3,9 @@ package csps;
 import variables.Cell;
 
 import java.util.LinkedList;
+import java.util.List;
 
-public class LatinSquareCsp implements Csp<Cell> {
+public class LatinSquareCsp implements Csp<Integer, Cell> {
     private final int squareLength;
     private int[][] initialSquare;
     private final Cell[][] squareGrid;
@@ -37,7 +38,7 @@ public class LatinSquareCsp implements Csp<Cell> {
         for (int i = 0; i < squareLength; i++) {
             for (int j = 0; j < squareLength; j++) {
                 if (initialSquare[i][j] != 0) {
-                    setValue(initialSquare[i][j], squareGrid[i][j]);
+                    setValueAndGetAffectedCells(initialSquare[i][j], squareGrid[i][j]);
                 } else {
                     unassignedCells.add(squareGrid[i][j]);
                 }
@@ -70,69 +71,71 @@ public class LatinSquareCsp implements Csp<Cell> {
     /**
      * Sets the value of the cell at the given coordinate to given value
      * and removes it from the unassigned cells. Then removes the value from
-     * the domain of same row and column. Also Checks to see if the cells
-     * aligned in the same row or column with the given variable has any
-     * empty domain after reducing the domain. Can be used for forward checking.
+     * the domain of same row and column. Returns the list of affected cells.
      * @param value the value to set
      * @param cell the cell to set the value to
-     * @return false if the domain of any of the cells associated with the given
-     *          variable becomes empty, true otherwise.
+     * @return the list of affected cells
      */
-    public boolean setValue(int value, Cell cell) {
+    public List<Cell> setValueAndGetAffectedCells(int value, Cell cell) {
         cell.setValue(value);
         unassignedCells.remove(cell);
+        LinkedList<Cell> affectedCells = new LinkedList<>();
 
         int x = cell.getX();
         int y = cell.getY();
-        boolean hasEmptyDomain = false;
         for(int i = 0; i < squareLength; i++) {
-            if(i != x && squareGrid[i][y].getValue() == 0) {
+            if(i != x && squareGrid[i][y].getValue() == 0 && squareGrid[i][y].getDomain().contains(value)) {
                 squareGrid[i][y].removeFromDomain(value);
-                if(!hasEmptyDomain && squareGrid[i][y].getDomain().isEmpty()) hasEmptyDomain = true;
+                affectedCells.add(squareGrid[i][y]);
             }
-            if(i != y && squareGrid[x][i].getValue() == 0) {
+            if(i != y && squareGrid[x][i].getValue() == 0 && squareGrid[x][i].getDomain().contains(value)) {
                 squareGrid[x][i].removeFromDomain(value);
-                if(!hasEmptyDomain && squareGrid[x][i].getDomain().isEmpty()) hasEmptyDomain = true;
+                affectedCells.add(squareGrid[x][i]);
             }
         }
 
-        return !hasEmptyDomain;
+        return affectedCells;
+    }
+
+    /**
+     * Checks if any of the constraints has an empty domain
+     * @param cell the cell whose associated constraint cells are to be checked
+     * @return false if any of the constraint cells has an empty domain, true otherwise
+     */
+    @Override
+    public boolean areConstraintDomainsConsistent(Cell cell) {
+        int x = cell.getX();
+        int y = cell.getY();
+        for(int i = 0; i < squareLength; i++) {
+            if(i != x && squareGrid[i][y].getValue() == 0 && squareGrid[i][y].getDomain().isEmpty()) return false;
+            if(i != y && squareGrid[x][i].getValue() == 0 && squareGrid[x][i].getDomain().isEmpty()) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Adds a value to the domain of the passed list of cells.
+     * @param cells The list of cells that are constrained by the variable
+     * @param value The value to add to the domain of the cells
+     */
+    @Override
+    public void addToDomains(Integer value, List<Cell> cells) {
+        if(value != 0) {
+            for(Cell cell : cells) {
+                cell.addToDomain(value);
+            }
+        }
     }
 
     /**
      * Sets the value of the variable to 0 and adds the variable to
-     * unassignedCells. Then adds the value from the domain of same
-     * row and column.
+     * unassignedCells.
      * @param variable The variable to be reset
      */
     @Override
     public void resetVariable(Cell variable) {
-        int value = variable.getValue();
-        if(value != 0) {
-            variable.removeValue();
-            unassignedCells.add(variable);
-
-            int x = variable.getX();
-            int y = variable.getY();
-            for(int i = 0; i < squareLength; i++) {
-                if(i != y && squareGrid[x][i].getValue() == 0) {
-                    squareGrid[x][i].addToDomain(value);
-                }
-                if(i != x && squareGrid[i][y].getValue() == 0) {
-                    squareGrid[i][y].addToDomain(value);
-                }
-            }
-        }
-    }
-
-    /**
-     * Sets the value of the variable at index (x,y) to 0 and adds the variable to
-     * unassignedCells.
-     * @param x x index of the variable in the square grid
-     * @param y y index of the variable in the square grid
-     */
-    public void resetVariable(int x, int y) {
-        resetVariable(squareGrid[x][y]);
+        variable.removeValue();
+        unassignedCells.add(variable);
     }
 
     @Override
