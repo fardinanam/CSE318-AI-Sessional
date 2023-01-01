@@ -2,6 +2,7 @@ package solver.latinsquare;
 
 import csps.LatinSquareCsp;
 import value.order.heuristics.MinimumDegreeValue;
+import value.order.heuristics.NoOrderValue;
 import value.order.heuristics.ValueOrderHeuristic;
 import variable.order.heuristics.MinimumRemainingValue;
 import variable.order.heuristics.VariableOrderHeuristic;
