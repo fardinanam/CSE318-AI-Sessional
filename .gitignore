@@ -7,4 +7,5 @@ test.*
 *.class
 temp.txt
 *.zip
-out*.txt
+*.out
+*.zip

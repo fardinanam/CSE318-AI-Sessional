@@ -83,6 +83,8 @@ public class LatinSquareCsp implements Csp<Integer, Cell> {
 
         int x = cell.getX();
         int y = cell.getY();
+
+        // Remove the value from the domain of same row and column
         for(int i = 0; i < squareLength; i++) {
             if(i != x && squareGrid[i][y].getValue() == 0 && squareGrid[i][y].getDomain().contains(value)) {
                 squareGrid[i][y].removeFromDomain(value);

@@ -1,8 +1,7 @@
 package solver.latinsquare;
 
 import csps.LatinSquareCsp;
-import value.order.heuristics.MinimumDegreeValue;
-import value.order.heuristics.NoOrderValue;
+import value.order.heuristics.LeastConstrainedValue;
 import value.order.heuristics.ValueOrderHeuristic;
 import variable.order.heuristics.MinimumRemainingValue;
 import variable.order.heuristics.VariableOrderHeuristic;
@@ -39,7 +38,7 @@ public class LatinSquareSolver {
             noOfBacktracks++;
             return null;
         }
-        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new MinimumDegreeValue(csp, cell);
+        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new LeastConstrainedValue(csp, cell);
         while (vohValue.hasNext()) {
             int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
@@ -65,7 +64,7 @@ public class LatinSquareSolver {
             noOfBacktracks++;
             return null;
         }
-        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new MinimumDegreeValue(csp, cell);
+        ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new LeastConstrainedValue(csp, cell);
         while (vohValue.hasNext()) {
             int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
