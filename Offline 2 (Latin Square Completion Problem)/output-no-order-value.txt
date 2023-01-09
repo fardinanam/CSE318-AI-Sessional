@@ -3,7 +3,7 @@
 backtracking:
 -----------------------------------
 ===========d-10-01==backtracking==Minimum Remaining Value===========
-Runtime: 4ms, Backtracks: 151, Nodes: 208
+Runtime: 4ms, Backtracks: 15, Nodes: 208
 9 7 6 8 5 3 4 2 10 1 
 2 6 4 3 10 5 1 7 9 8 
 8 2 10 7 4 1 3 6 5 9 
@@ -16,7 +16,7 @@ Runtime: 4ms, Backtracks: 151, Nodes: 208
 7 5 1 9 6 2 10 3 8 4 
 -----------------------------------
 ===========d-10-01==backtracking==Maximum Degree===========
-Runtime: 516494ms, Backtracks: 1060855659, Nodes: 1060855716
+Runtime: 516494ms, Backtracks: 383985439, Nodes: 1060855716
 5 9 6 7 8 3 4 2 10 1 
 2 6 4 10 5 1 7 8 9 3 
 7 2 10 8 3 4 1 6 5 9 
@@ -29,7 +29,7 @@ Runtime: 516494ms, Backtracks: 1060855659, Nodes: 1060855716
 4 5 1 9 6 2 3 7 8 10 
 -----------------------------------
 ===========d-10-01==backtracking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 5ms, Backtracks: 132, Nodes: 189
+Runtime: 5ms, Backtracks: 15, Nodes: 189
 9 7 6 5 8 3 4 2 10 1 
 2 6 4 7 5 10 1 8 9 3 
 4 2 10 8 7 1 3 6 5 9 
@@ -55,22 +55,22 @@ Runtime: 2ms, Backtracks: 0, Nodes: 57
 7 5 1 9 6 2 10 3 8 4 
 -----------------------------------
 ===========d-10-01==backtracking==Random Unassigned Variable===========
-Runtime: 839233ms, Backtracks: 2375031830, Nodes: 2375031887
+Runtime: 316962ms, Backtracks: 242404898, Nodes: 815430746
 9 8 6 5 7 3 4 2 10 1 
-2 6 4 10 5 1 7 8 9 3 
-7 2 10 8 3 4 1 6 5 9 
-10 1 5 4 2 6 9 3 7 8 
-5 10 2 7 1 9 8 4 3 6 
-8 7 3 2 9 5 10 1 6 4 
+2 6 4 8 5 1 3 7 9 10 
+8 2 10 7 3 4 1 6 5 9 
+10 1 5 4 2 6 9 8 7 3 
+5 7 2 10 1 9 8 4 3 6 
+4 10 3 2 9 5 7 1 6 8 
 6 9 8 3 4 7 2 10 1 5 
 3 4 9 1 10 8 6 5 2 7 
 1 3 7 6 8 10 5 9 4 2 
-4 5 1 9 6 2 3 7 8 10 
+7 5 1 9 6 2 10 3 8 4 
 ===================================
 forward checking:
 -----------------------------------
 ===========d-10-01==forward checking==Minimum Remaining Value===========
-Runtime: 5ms, Backtracks: 136, Nodes: 208
+Runtime: 5ms, Backtracks: 15, Nodes: 208
 9 7 6 8 5 3 4 2 10 1 
 2 6 4 3 10 5 1 7 9 8 
 8 2 10 7 4 1 3 6 5 9 
@@ -83,7 +83,7 @@ Runtime: 5ms, Backtracks: 136, Nodes: 208
 7 5 1 9 6 2 10 3 8 4 
 -----------------------------------
 ===========d-10-01==forward checking==Maximum Degree===========
-Runtime: 15429ms, Backtracks: 15324876, Nodes: 28677475
+Runtime: 15429ms, Backtracks: 4013697, Nodes: 28677475
 5 9 6 7 8 3 4 2 10 1 
 2 6 4 10 5 1 7 8 9 3 
 7 2 10 8 3 4 1 6 5 9 
@@ -96,7 +96,7 @@ Runtime: 15429ms, Backtracks: 15324876, Nodes: 28677475
 4 5 1 9 6 2 3 7 8 10 
 -----------------------------------
 ===========d-10-01==forward checking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 4ms, Backtracks: 117, Nodes: 189
+Runtime: 4ms, Backtracks: 15, Nodes: 189
 9 7 6 5 8 3 4 2 10 1 
 2 6 4 7 5 10 1 8 9 3 
 4 2 10 8 7 1 3 6 5 9 
@@ -151,7 +151,7 @@ Runtime: 1ms, Backtracks: 0, Nodes: 57
 7 9 5 6 10 8 1 4 3 2 
 -----------------------------------
 ===========d-10-06==backtracking==Maximum Degree===========
-Runtime: 95474ms, Backtracks: 200860854, Nodes: 200860911
+Runtime: 95474ms, Backtracks: 73549817, Nodes: 200860911
 1 7 8 10 5 3 2 6 4 9 
 9 8 1 2 3 5 10 4 6 7 
 2 3 7 5 9 1 4 8 10 6 
@@ -190,17 +190,17 @@ Runtime: 2ms, Backtracks: 0, Nodes: 57
 7 9 5 6 4 8 1 2 3 10 
 -----------------------------------
 ===========d-10-06==backtracking==Random Unassigned Variable===========
-Runtime: 15323ms, Backtracks: 39887213, Nodes: 39887270
-1 7 8 9 5 10 2 6 4 3 
-9 5 1 2 8 3 10 4 6 7 
-6 3 7 5 9 1 4 8 10 2 
-3 8 2 10 7 4 9 1 5 6 
-4 2 9 8 10 6 7 3 1 5 
-10 4 6 3 1 2 5 7 8 9 
-8 10 4 7 6 5 3 9 2 1 
-5 1 3 4 2 9 6 10 7 8 
-2 6 10 1 3 7 8 5 9 4 
-7 9 5 6 4 8 1 2 3 10 
+Runtime: 3129ms, Backtracks: 2048620, Nodes: 7463092
+1 7 8 10 5 9 2 6 4 3 
+9 8 1 2 10 3 5 4 6 7 
+4 3 7 5 9 1 10 8 2 6 
+3 10 2 8 7 4 6 1 5 9 
+6 2 9 1 8 10 4 3 7 5 
+10 4 6 3 1 5 7 9 8 2 
+8 5 4 7 6 2 3 10 9 1 
+5 1 3 4 2 6 9 7 10 8 
+2 6 10 9 3 7 8 5 1 4 
+7 9 5 6 4 8 1 2 3 10
 ===================================
 forward checking:
 -----------------------------------
@@ -218,7 +218,7 @@ Runtime: 2ms, Backtracks: 0, Nodes: 57
 7 9 5 6 10 8 1 4 3 2 
 -----------------------------------
 ===========d-10-06==forward checking==Maximum Degree===========
-Runtime: 4043ms, Backtracks: 3723906, Nodes: 6936956
+Runtime: 4043ms, Backtracks: 1032038, Nodes: 6936956
 1 7 8 9 5 3 2 6 4 10 
 9 8 1 2 3 5 10 4 6 7 
 2 3 7 5 9 1 4 8 10 6 
@@ -257,23 +257,23 @@ Runtime: 2ms, Backtracks: 0, Nodes: 57
 7 9 5 6 4 8 1 2 3 10 
 -----------------------------------
 ===========d-10-06==forward checking==Random Unassigned Variable===========
-Runtime: 195ms, Backtracks: 157360, Nodes: 273096
-1 7 8 10 5 9 2 6 4 3 
-9 8 1 2 3 5 4 10 6 7 
-8 3 7 5 9 1 10 4 2 6 
-6 10 3 8 7 4 9 1 5 2 
-4 2 9 1 8 6 7 3 10 5 
-2 4 6 3 1 10 5 7 8 9 
-10 5 4 7 6 2 3 8 9 1 
-5 1 10 4 2 3 6 9 7 8 
-3 6 2 9 10 7 8 5 1 4 
-7 9 5 6 4 8 1 2 3 10 
+Runtime: 111ms, Backtracks: 15759, Nodes: 111878
+1 7 8 9 5 3 2 6 4 10 
+9 3 1 2 8 6 5 4 10 7 
+6 10 7 5 9 1 4 8 2 3 
+3 8 10 6 7 4 9 1 5 2 
+4 2 9 8 1 10 6 3 7 5 
+2 4 6 3 10 5 7 9 8 1 
+8 5 4 7 6 2 3 10 1 9 
+5 1 3 4 2 9 10 7 6 8 
+10 6 2 1 3 7 8 5 9 4 
+7 9 5 10 4 8 1 2 3 6  
 ===============d-10-07:==============
 ===================================
 backtracking:
 -----------------------------------
 ===========d-10-07==backtracking==Minimum Remaining Value===========
-Runtime: 11ms, Backtracks: 1498, Nodes: 1555
+Runtime: 11ms, Backtracks: 134, Nodes: 1555
 3 8 4 1 6 10 7 2 5 9 
 9 6 3 8 2 5 1 10 4 7 
 5 3 1 2 4 7 6 9 10 8 
@@ -286,7 +286,7 @@ Runtime: 11ms, Backtracks: 1498, Nodes: 1555
 2 7 5 3 10 6 9 8 1 4 
 -----------------------------------
 ===========d-10-07==backtracking==Maximum Degree===========
-Runtime: 131295ms, Backtracks: 299113217, Nodes: 299113274
+Runtime: 131295ms, Backtracks: 106696036, Nodes: 299113274
 1 8 9 3 6 10 2 4 5 7 
 9 6 3 8 2 7 1 10 4 5 
 2 3 1 5 7 4 6 9 10 8 
@@ -299,7 +299,7 @@ Runtime: 131295ms, Backtracks: 299113217, Nodes: 299113274
 3 7 5 2 10 6 9 8 1 4 
 -----------------------------------
 ===========d-10-07==backtracking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 2ms, Backtracks: 4, Nodes: 61
+Runtime: 2ms, Backtracks: 2, Nodes: 61
 1 8 4 2 6 10 9 3 5 7 
 9 5 3 8 2 4 7 10 1 6 
 5 3 1 4 7 2 6 9 10 8 
@@ -312,7 +312,7 @@ Runtime: 2ms, Backtracks: 4, Nodes: 61
 2 7 5 3 10 6 1 8 9 4 
 -----------------------------------
 ===========d-10-07==backtracking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 5ms, Backtracks: 382, Nodes: 439
+Runtime: 5ms, Backtracks: 32, Nodes: 439
 3 8 7 1 6 10 2 4 5 9 
 9 5 3 8 2 4 1 10 6 7 
 5 3 1 2 4 7 6 9 10 8 
@@ -340,7 +340,7 @@ Runtime: 664809ms, Backtracks: 1873765411, Nodes: 1873765468
 forward checking:
 -----------------------------------
 ===========d-10-07==forward checking==Minimum Remaining Value===========
-Runtime: 13ms, Backtracks: 1364, Nodes: 1555
+Runtime: 13ms, Backtracks: 134, Nodes: 1555
 3 8 4 1 6 10 7 2 5 9 
 9 6 3 8 2 5 1 10 4 7 
 5 3 1 2 4 7 6 9 10 8 
@@ -353,7 +353,7 @@ Runtime: 13ms, Backtracks: 1364, Nodes: 1555
 2 7 5 3 10 6 9 8 1 4 
 -----------------------------------
 ===========d-10-07==forward checking==Maximum Degree===========
-Runtime: 2819ms, Backtracks: 2511432, Nodes: 4571968
+Runtime: 2819ms, Backtracks: 632848, Nodes: 4571968
 1 8 9 3 6 10 2 4 5 7 
 9 6 3 8 2 7 1 10 4 5 
 2 3 1 5 7 4 6 9 10 8 
@@ -379,7 +379,7 @@ Runtime: 4ms, Backtracks: 2, Nodes: 61
 2 7 5 3 10 6 1 8 9 4 
 -----------------------------------
 ===========d-10-07==forward checking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 6ms, Backtracks: 350, Nodes: 439
+Runtime: 6ms, Backtracks: 32, Nodes: 439
 3 8 7 1 6 10 2 4 5 9 
 9 5 3 8 2 4 1 10 6 7 
 5 3 1 2 4 7 6 9 10 8 
@@ -392,23 +392,23 @@ Runtime: 6ms, Backtracks: 350, Nodes: 439
 2 7 5 3 10 6 9 8 1 4 
 -----------------------------------
 ===========d-10-07==forward checking==Random Unassigned Variable===========
-Runtime: 652ms, Backtracks: 603712, Nodes: 1039371
-2 8 7 3 6 10 1 4 5 9 
-9 6 3 8 2 4 7 10 1 5 
-5 3 1 2 10 7 6 9 4 8 
-10 1 9 6 4 5 8 2 3 7 
-7 4 2 5 8 3 9 6 10 1 
-3 2 6 1 5 9 4 7 8 10 
-8 5 4 7 9 1 10 3 2 6 
+Runtime: 126ms, Backtracks: 19671, Nodes: 134738
+1 8 7 3 6 10 2 4 5 9 
+9 5 3 8 2 4 1 10 6 7 
+5 3 1 2 4 7 6 9 10 8 
+10 1 9 6 7 5 8 2 4 3 
+7 4 2 5 8 3 10 6 9 1 
+3 2 6 1 10 9 4 7 8 5 
+8 6 4 7 9 1 5 3 2 10 
 6 9 10 4 1 8 3 5 7 2 
-4 10 8 9 7 2 5 1 6 3 
-1 7 5 10 3 6 2 8 9 4 
+4 10 8 9 5 2 7 1 3 6 
+2 7 5 10 3 6 9 8 1 4 
 ===============d-10-08:==============
 ===================================
 backtracking:
 -----------------------------------
 ===========d-10-08==backtracking==Minimum Remaining Value===========
-Runtime: 11ms, Backtracks: 983, Nodes: 1040
+Runtime: 11ms, Backtracks: 102, Nodes: 1040
 2 9 3 8 7 6 10 4 1 5 
 8 2 6 3 10 4 1 5 7 9 
 4 1 8 6 9 10 5 3 2 7 
@@ -421,7 +421,7 @@ Runtime: 11ms, Backtracks: 983, Nodes: 1040
 5 10 9 4 3 7 2 1 6 8 
 -----------------------------------
 ===========d-10-08==backtracking==Maximum Degree===========
-Runtime: 203842ms, Backtracks: 409798183, Nodes: 409798240
+Runtime: 203842ms, Backtracks: 145792038, Nodes: 409798240
 2 9 3 10 7 6 8 4 1 5 
 3 5 9 8 10 4 1 2 7 6 
 4 1 8 6 2 10 3 7 5 9 
@@ -434,7 +434,7 @@ Runtime: 203842ms, Backtracks: 409798183, Nodes: 409798240
 9 10 5 4 3 7 6 1 2 8 
 -----------------------------------
 ===========d-10-08==backtracking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 7ms, Backtracks: 128, Nodes: 185
+Runtime: 7ms, Backtracks: 21, Nodes: 185
 2 9 3 8 7 6 10 4 1 5 
 6 3 5 2 10 4 1 8 7 9 
 4 1 8 6 9 10 5 3 2 7 
@@ -447,7 +447,7 @@ Runtime: 7ms, Backtracks: 128, Nodes: 185
 5 10 9 4 2 7 3 1 6 8 
 -----------------------------------
 ===========d-10-08==backtracking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 3ms, Backtracks: 77, Nodes: 134
+Runtime: 3ms, Backtracks: 12, Nodes: 134
 2 9 3 10 7 6 8 4 1 5 
 8 6 9 3 10 4 1 5 7 2 
 4 1 8 6 3 10 5 7 2 9 
@@ -475,7 +475,7 @@ Runtime: 200900ms, Backtracks: 551506471, Nodes: 551506528
 forward checking:
 -----------------------------------
 ===========d-10-08==forward checking==Minimum Remaining Value===========
-Runtime: 10ms, Backtracks: 881, Nodes: 1040
+Runtime: 10ms, Backtracks: 102, Nodes: 1040
 2 9 3 8 7 6 10 4 1 5 
 8 2 6 3 10 4 1 5 7 9 
 4 1 8 6 9 10 5 3 2 7 
@@ -488,7 +488,7 @@ Runtime: 10ms, Backtracks: 881, Nodes: 1040
 5 10 9 4 3 7 2 1 6 8 
 -----------------------------------
 ===========d-10-08==forward checking==Maximum Degree===========
-Runtime: 7115ms, Backtracks: 6639045, Nodes: 12162652
+Runtime: 7115ms, Backtracks: 1702025, Nodes: 12162652
 2 9 3 10 7 6 8 4 1 5 
 3 2 9 8 10 4 1 5 7 6 
 4 1 8 6 2 10 3 7 5 9 
@@ -501,7 +501,7 @@ Runtime: 7115ms, Backtracks: 6639045, Nodes: 12162652
 9 10 5 4 3 7 2 1 6 8 
 -----------------------------------
 ===========d-10-08==forward checking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 8ms, Backtracks: 107, Nodes: 185
+Runtime: 8ms, Backtracks: 21, Nodes: 185
 2 9 3 8 7 6 10 4 1 5 
 6 3 5 2 10 4 1 8 7 9 
 4 1 8 6 9 10 5 3 2 7 
@@ -514,7 +514,7 @@ Runtime: 8ms, Backtracks: 107, Nodes: 185
 5 10 9 4 2 7 3 1 6 8 
 -----------------------------------
 ===========d-10-08==forward checking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 3ms, Backtracks: 65, Nodes: 134
+Runtime: 3ms, Backtracks: 12, Nodes: 134
 2 9 3 10 7 6 8 4 1 5 
 8 6 9 3 10 4 1 5 7 2 
 4 1 8 6 3 10 5 7 2 9 
@@ -527,17 +527,17 @@ Runtime: 3ms, Backtracks: 65, Nodes: 134
 9 10 6 4 2 7 3 1 5 8 
 -----------------------------------
 ===========d-10-08==forward checking==Random Unassigned Variable===========
-Runtime: 6733ms, Backtracks: 7210404, Nodes: 12669655
+Runtime: 176ms, Backtracks: 36145, Nodes: 227714
 2 9 3 10 7 6 8 4 1 5 
-9 3 5 8 10 4 1 2 7 6 
-4 1 8 6 2 10 3 7 5 9 
+8 3 6 5 10 4 1 2 7 9 
+4 1 8 6 9 10 5 3 2 7 
 6 7 10 3 5 1 4 8 9 2 
-8 6 1 5 9 2 7 10 4 3 
-3 5 4 2 1 7 9 6 8 10 
-5 2 7 1 3 8 10 9 6 4 
-1 4 2 9 8 5 6 3 10 7 
-10 8 6 7 4 9 2 5 3 1 
-7 10 9 4 6 3 5 1 2 8 
+9 5 1 8 6 2 7 10 4 3 
+3 2 4 7 1 5 9 6 8 10 
+5 6 7 1 3 8 2 9 10 4 
+1 4 2 9 8 3 10 7 5 6 
+10 8 9 2 4 7 6 5 3 1 
+7 10 5 4 2 9 3 1 6 8  
 ===============d-10-09:==============
 ===================================
 backtracking:
@@ -556,7 +556,7 @@ Runtime: 3ms, Backtracks: 0, Nodes: 57
 2 9 10 8 4 6 5 3 7 1 
 -----------------------------------
 ===========d-10-09==backtracking==Maximum Degree===========
-Runtime: 90396ms, Backtracks: 192994992, Nodes: 192995049
+Runtime: 90396ms, Backtracks: 67244456, Nodes: 192995049
 1 4 9 5 3 7 10 6 2 8 
 4 3 5 10 7 9 6 8 1 2 
 5 8 2 1 6 3 7 10 4 9 
@@ -582,7 +582,7 @@ Runtime: 3ms, Backtracks: 0, Nodes: 57
 2 1 10 8 9 6 5 3 7 4 
 -----------------------------------
 ===========d-10-09==backtracking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 66ms, Backtracks: 35518, Nodes: 35575
+Runtime: 66ms, Backtracks: 4345, Nodes: 35575
 1 4 9 5 3 7 10 6 2 8 
 4 3 5 10 7 9 6 8 1 2 
 5 8 2 1 6 3 7 10 9 4 
@@ -610,7 +610,7 @@ Runtime: 2ms, Backtracks: 0, Nodes: 57
 2 9 10 8 4 6 5 3 7 1 
 -----------------------------------
 ===========d-10-09==forward checking==Maximum Degree===========
-Runtime: 4032ms, Backtracks: 4163973, Nodes: 7684384
+Runtime: 4032ms, Backtracks: 1125896, Nodes: 7684384
 1 9 4 5 3 7 10 6 2 8 
 4 3 5 10 7 9 6 8 1 2 
 5 8 2 1 6 3 7 10 4 9 
@@ -636,7 +636,7 @@ Runtime: 3ms, Backtracks: 0, Nodes: 57
 2 1 10 8 9 6 5 3 7 4 
 -----------------------------------
 ===========d-10-09==forward checking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 68ms, Backtracks: 31173, Nodes: 35575
+Runtime: 68ms, Backtracks: 4313, Nodes: 35575
 1 4 9 5 3 7 10 6 2 8 
 4 3 5 10 7 9 6 8 1 2 
 5 8 2 1 6 3 7 10 9 4 
@@ -649,23 +649,23 @@ Runtime: 68ms, Backtracks: 31173, Nodes: 35575
 2 1 10 8 4 6 5 3 7 9 
 -----------------------------------
 ===========d-10-09==forward checking==Random Unassigned Variable===========
-Runtime: 5485ms, Backtracks: 5635495, Nodes: 9960463
-1 7 4 5 3 9 10 6 2 8 
-6 3 5 10 7 4 9 8 1 2 
-7 8 2 1 9 3 6 10 5 4 
-5 2 3 4 10 7 8 1 9 6 
-3 6 7 9 1 8 2 4 10 5 
-10 5 8 6 2 1 4 9 3 7 
-9 1 6 3 8 2 7 5 4 10 
+Runtime: 174ms, Backtracks: 33443, Nodes: 223713
+1 4 7 5 3 9 10 6 2 8 
+6 3 5 10 7 2 4 8 9 1 
+5 8 2 6 9 3 7 10 1 4 
+7 2 3 1 10 8 9 4 5 6 
+3 7 6 9 1 4 8 2 10 5 
+10 5 8 4 2 1 6 9 3 7 
+9 6 1 3 8 7 2 5 4 10 
 4 10 9 2 6 5 1 7 8 3 
-8 4 1 7 5 10 3 2 6 9 
-2 9 10 8 4 6 5 3 7 1 
+8 9 4 7 5 10 3 1 6 2 
+2 1 10 8 4 6 5 3 7 9 
 ===============d-15-01:==============
 ===================================
 backtracking:
 -----------------------------------
 ===========d-15-01==backtracking==Minimum Remaining Value===========
-Runtime: 1287ms, Backtracks: 932566, Nodes: 932672
+Runtime: 1287ms, Backtracks: 86182, Nodes: 932672
 9 6 8 7 2 15 11 14 13 1 4 10 5 12 3 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 
@@ -683,7 +683,7 @@ Runtime: 1287ms, Backtracks: 932566, Nodes: 932672
 10 7 1 9 15 3 4 13 12 5 11 8 6 2 14 
 -----------------------------------
 ===========d-15-01==backtracking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 184ms, Backtracks: 101816, Nodes: 101922
+Runtime: 184ms, Backtracks: 12529, Nodes: 101922
 9 6 8 7 2 15 11 3 13 1 4 10 5 12 14 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 
@@ -701,7 +701,7 @@ Runtime: 184ms, Backtracks: 101816, Nodes: 101922
 10 7 1 14 15 9 4 13 12 5 11 8 6 2 3 
 -----------------------------------
 ===========d-15-01==backtracking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 747ms, Backtracks: 597476, Nodes: 597582
+Runtime: 747ms, Backtracks: 62449, Nodes: 597582
 9 6 8 7 2 15 11 14 13 1 4 10 5 12 3 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 
@@ -721,7 +721,7 @@ Runtime: 747ms, Backtracks: 597476, Nodes: 597582
 forward checking:
 -----------------------------------
 ===========d-15-01==forward checking==Minimum Remaining Value===========
-Runtime: 1332ms, Backtracks: 846384, Nodes: 932672
+Runtime: 1332ms, Backtracks: 86182, Nodes: 932672
 9 6 8 7 2 15 11 14 13 1 4 10 5 12 3 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 
@@ -739,7 +739,7 @@ Runtime: 1332ms, Backtracks: 846384, Nodes: 932672
 10 7 1 9 15 3 4 13 12 5 11 8 6 2 14 
 -----------------------------------
 ===========d-15-01==forward checking==Minimum Remaining Value + Maximum Degree===========
-Runtime: 197ms, Backtracks: 89287, Nodes: 101922
+Runtime: 197ms, Backtracks: 12529, Nodes: 101922
 9 6 8 7 2 15 11 3 13 1 4 10 5 12 14 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 
@@ -757,7 +757,7 @@ Runtime: 197ms, Backtracks: 89287, Nodes: 101922
 10 7 1 14 15 9 4 13 12 5 11 8 6 2 3 
 -----------------------------------
 ===========d-15-01==forward checking==Minimum Remaining Value / Maximum Degree===========
-Runtime: 768ms, Backtracks: 535027, Nodes: 597582
+Runtime: 768ms, Backtracks: 62289, Nodes: 597582
 9 6 8 7 2 15 11 14 13 1 4 10 5 12 3 
 15 11 13 12 9 5 14 2 10 3 1 7 8 6 4 
 4 15 10 13 3 6 1 11 8 12 5 14 2 7 9 

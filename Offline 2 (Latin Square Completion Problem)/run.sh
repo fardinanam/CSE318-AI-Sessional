@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-out="output.txt"
+out="output.out"
 temp="temp.txt"
 dataSet=("d-10-01" "d-10-06" "d-10-07" "d-10-08" "d-10-09" "d-15-01")
 backtracks=("backtracking" "forward checking")

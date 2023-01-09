@@ -2,6 +2,7 @@ package solver.latinsquare;
 
 import csps.LatinSquareCsp;
 import value.order.heuristics.LeastConstrainedValue;
+import value.order.heuristics.NoOrderValue;
 import value.order.heuristics.ValueOrderHeuristic;
 import variable.order.heuristics.MinimumRemainingValue;
 import variable.order.heuristics.VariableOrderHeuristic;
@@ -34,25 +35,30 @@ public class LatinSquareSolver {
         if(csp.isComplete()) return csp.getSquareGrid();
 
         Cell cell = vohVariable.getNextVariable(csp);
-        if(cell == null) {
-            noOfBacktracks++;
-            return null;
-        }
+        if(cell == null) return null;
+
         ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new LeastConstrainedValue(csp, cell);
+        boolean isLeafNode = true;
         while (vohValue.hasNext()) {
             int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
                 List<Cell> affectedCells = csp.setValueAndGetAffectedCells(value, cell);
                 noOfAssignments++;
                 Cell[][] result = backtrack();
-                if (result != null) return result;
+
+                // as backtrack is called so this is not a leaf node
+                isLeafNode = false;
+                if (result != null) {
+                    return result;
+                }
 
                 // reset the value of the cell and fix the domains of the affected cells
                 csp.resetVariable(cell);
                 csp.addToDomains(value, affectedCells);
             }
         }
-        noOfBacktracks++;
+
+        if(isLeafNode) noOfBacktracks++;
         return null;
     }
 
@@ -64,15 +70,20 @@ public class LatinSquareSolver {
             noOfBacktracks++;
             return null;
         }
+
         ValueOrderHeuristic<Integer, Cell, LatinSquareCsp> vohValue = new LeastConstrainedValue(csp, cell);
+        boolean isLeafNode = true;
         while (vohValue.hasNext()) {
             int value = vohValue.getNext();
             if (csp.isConstraintSatisfied(value, cell)) {
                 List<Cell> affectedCells = csp.setValueAndGetAffectedCells(value, cell);
                 noOfAssignments++;
-                // Forward tracing
+                // Forward checking
                 if (csp.areConstraintDomainsConsistent(cell)) {
                     Cell[][] result = forwardCheck();
+
+                    // as forwardCheck is called so this is not a leaf node
+                    isLeafNode = false;
                     if (result != null) return result;
                 }
 
@@ -81,7 +92,8 @@ public class LatinSquareSolver {
                 csp.addToDomains(value, affectedCells);
             }
         }
-        noOfBacktracks++;
+
+        if (isLeafNode) noOfBacktracks++;
         return null;
     }
 
