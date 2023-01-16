@@ -43,4 +43,8 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
 
         return sb.toString();
     }
+
+//    public void assignCourseTimeSlot(int label) {
+//
+//    }
 }
