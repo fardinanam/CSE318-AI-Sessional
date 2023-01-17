@@ -5,7 +5,7 @@ import graph.Graph;
 import java.util.HashMap;
 
 public class CourseDependencyGraph implements Graph<Integer, Course> {
-    private HashMap<Integer, Course> courses;
+    private final HashMap<Integer, Course> courses;
 
     public CourseDependencyGraph() {
         courses = new HashMap<>();

@@ -4,7 +4,7 @@ import graph.Node;
 
 import java.util.HashSet;
 
-public class Course implements Node<Integer, Course, HashSet<Course>> {
+public class Course implements Node<Integer, Course> {
     private int label;
     private int timeSlot;
     private int noOfStudents;
@@ -59,8 +59,8 @@ public class Course implements Node<Integer, Course, HashSet<Course>> {
     }
 
     @Override
-    public void addNeighbor(Node node) {
-        neighbors.add((Course) node);
+    public void addNeighbor(Course course) {
+        neighbors.add(course);
     }
 
     @Override
