@@ -4,7 +4,7 @@ import graph.Node;
 
 import java.util.HashSet;
 
-public class Course implements Node<Integer, Course> {
+public class Course implements Node<Integer> {
     private int label;
     private int timeSlot;
     private int noOfStudents;
@@ -59,8 +59,11 @@ public class Course implements Node<Integer, Course> {
     }
 
     @Override
-    public void addNeighbor(Course course) {
-        neighbors.add(course);
+    public void addNeighbor(Node course) throws IllegalArgumentException {
+        if (!(course instanceof Course))
+            throw new IllegalArgumentException("Object of Course expected: " +
+                    "course can only have Course as neighbors");
+        neighbors.add((Course) course);
     }
 
     @Override
