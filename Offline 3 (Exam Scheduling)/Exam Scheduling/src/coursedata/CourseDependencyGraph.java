@@ -1,14 +1,18 @@
-package examdata;
+package coursedata;
 
 import graph.Graph;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class CourseDependencyGraph implements Graph<Integer, Course> {
     private final HashMap<Integer, Course> courses;
+    private final HashMap<Integer, LinkedList<Integer>> timeSlotsAllocation;
 
     public CourseDependencyGraph() {
         courses = new HashMap<>();
+        timeSlotsAllocation = new HashMap<>();
     }
     @Override
     public void addNode(Integer courseId) {
@@ -29,6 +33,10 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
         return courses.get(courseId);
     }
 
+    public HashSet<Course> getCourses() {
+        return new HashSet<>(courses.values());
+    }
+
     public void setNoOfStudents(int courseId, int noOfStudents) {
         courses.get(courseId).setNoOfStudents(noOfStudents);
     }
@@ -36,9 +44,18 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int key : courses.keySet()) {
-            sb.append(key).append("->")
-                    .append(courses.get(key).toString()).append("\n");
+//        for (int key : courses.keySet()) {
+//            sb.append(key).append("->")
+//                    .append(courses.get(key).toString()).append("\n");
+//        }
+
+        // append time slots allocation
+        for (int timeSlot : timeSlotsAllocation.keySet()) {
+            sb.append(timeSlot).append("->");
+            for (int courseId : timeSlotsAllocation.get(timeSlot)) {
+                sb.append(courseId).append(" ");
+            }
+            sb.append("\n");
         }
 
         return sb.toString();
@@ -53,9 +70,11 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
     public void assignCourseTimeSlot(int courseId) {
         Course course = courses.get(courseId);
 
-        boolean occupiedTimeSlots[] = new boolean[courses.size()];
+        boolean[] occupiedTimeSlots = new boolean[courses.size()];
         for (Course neighbor : course.getNeighbors()) {
-            occupiedTimeSlots[neighbor.getTimeSlot()] = true;
+            if (neighbor.getTimeSlot() >= 0) {
+                occupiedTimeSlots[neighbor.getTimeSlot()] = true;
+            }
         }
 
         int timeSlot = 0;
@@ -64,5 +83,7 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
         }
 
         course.setTimeSlot(timeSlot);
+        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
+        timeSlotsAllocation.get(timeSlot).add(courseId);
     }
 }

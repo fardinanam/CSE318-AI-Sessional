@@ -1,6 +1,7 @@
 package schedule.heuristics.constructive;
 
-import examdata.Course;
+import coursedata.Course;
+import logs.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
             return difference;
 
         // If saturation ties then use the one with more students as tie-breaker
-        difference = course2.getNoOfStudents() - course1.getNoOfStudents();
+        difference = course2.getNeighbors().size() - course1.getNeighbors().size();
         if (difference != 0)
             return difference;
 
@@ -46,8 +47,10 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
     }
 
     private void updateSaturationDegrees(Course course) {
-        if (course == null || course.getTimeSlot() < 0)
+        if (course == null || course.getTimeSlot() < 0) {
+            Log.log("SaturationDegree::updateSaturationDegree(Course): Course is null or has no time slot assigned");
             return;
+        }
         for (Course neighbor : course.getNeighbors()) {
             saturationDegrees.put(neighbor.getLabel(),
                     saturationDegrees.get(neighbor.getLabel()) + 1);
@@ -76,8 +79,8 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
             updateSaturationDegrees(currentCourse);
 
             // Update the priority queue
-            courseQueue.remove(currentCourse);
-            courseQueue.add(currentCourse);
+            if (courseQueue.remove(currentCourse))
+                courseQueue.add(currentCourse);
         }
 
         // Get the next course

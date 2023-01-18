@@ -1,6 +1,6 @@
 package schedule.heuristics.constructive;
 
-import examdata.Course;
+import coursedata.Course;
 
 import java.util.Collection;
 import java.util.LinkedList;
