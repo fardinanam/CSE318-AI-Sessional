@@ -1,6 +1,7 @@
 package builders;
 
 import coursedata.CourseDependencyGraph;
+import coursedata.Student;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -69,15 +70,19 @@ public class CourseGraphBuilder extends GraphBuilder<CourseDependencyGraph> {
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+
+            if (line.isEmpty())
+                continue;
+
             String[] studentCourses = line.split(" ");
 
-            for (int i = 0; i < studentCourses.length; i++) {
-                for (int j = i + 1; j < studentCourses.length; j++) {
-                    int courseLabel1 = Integer.parseInt(studentCourses[i]);
-                    int courseLabel2 = Integer.parseInt(studentCourses[j]);
-                    courseDependencyGraph.addEdge(courseLabel1, courseLabel2);
-                }
+            Student student = new Student();
+            for (String course : studentCourses) {
+                int courseLabel = Integer.parseInt(course);
+                student.addCourse(courseLabel);
             }
+
+            courseDependencyGraph.addStudent(student);
         }
     }
 }

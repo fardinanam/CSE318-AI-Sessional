@@ -2,15 +2,18 @@ package coursedata;
 
 import graph.Graph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 public class CourseDependencyGraph implements Graph<Integer, Course> {
     private final HashMap<Integer, Course> courses;
+    private final ArrayList<Student> students;
     private final HashMap<Integer, LinkedList<Integer>> timeSlotsAllocation;
 
     public CourseDependencyGraph() {
+        students = new ArrayList<>();
         courses = new HashMap<>();
         timeSlotsAllocation = new HashMap<>();
     }
@@ -28,6 +31,20 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
         course2.addNeighbor(course1);
     }
 
+    /**
+     * Adds a student to the graph and then create edges between the student's enrolled courses.
+     */
+    public void addStudent(Student student) {
+        students.add(student);
+
+        for (int courseId1 : student.getEnrolledCourseIds()) {
+            for (int courseId2 : student.getEnrolledCourseIds()) {
+                if (courseId1 != courseId2)
+                    addEdge(courseId1, courseId2);
+            }
+        }
+    }
+
     @Override
     public Course getNode(Integer courseId) {
         return courses.get(courseId);
@@ -37,53 +54,46 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
         return new HashSet<>(courses.values());
     }
 
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
     public void setNoOfStudents(int courseId, int noOfStudents) {
         courses.get(courseId).setNoOfStudents(noOfStudents);
+    }
+
+    public int getTotalStudents() {
+        return students.size();
+    }
+
+    public int getNoOfCourses() {
+        return courses.size();
+    }
+
+    public void assignCourseTimeSlot(int courseId, int timeSlot) {
+        Course course = courses.get(courseId);
+        course.setTimeSlot(timeSlot);
+        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
+        timeSlotsAllocation.get(timeSlot).add(courseId);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-//        for (int key : courses.keySet()) {
-//            sb.append(key).append("->")
-//                    .append(courses.get(key).toString()).append("\n");
-//        }
+        int timeSlotCount = 0;
 
         // append time slots allocation
         for (int timeSlot : timeSlotsAllocation.keySet()) {
-            sb.append(timeSlot).append("->");
+            timeSlotCount++;
+            sb.append(timeSlot).append(" -> ");
             for (int courseId : timeSlotsAllocation.get(timeSlot)) {
                 sb.append(courseId).append(" ");
             }
             sb.append("\n");
         }
 
+        sb.append("Time slots: ").append(timeSlotCount);
+
         return sb.toString();
-    }
-
-    /**
-     * Assigns the lowest possible time slot to the course
-     * that is not already occupied by a neighbor.
-     * @param courseId the course id of the course
-     *                to be assigned a time slot to
-     */
-    public void assignCourseTimeSlot(int courseId) {
-        Course course = courses.get(courseId);
-
-        boolean[] occupiedTimeSlots = new boolean[courses.size()];
-        for (Course neighbor : course.getNeighbors()) {
-            if (neighbor.getTimeSlot() >= 0) {
-                occupiedTimeSlots[neighbor.getTimeSlot()] = true;
-            }
-        }
-
-        int timeSlot = 0;
-        while (occupiedTimeSlots[timeSlot]) {
-            timeSlot++;
-        }
-
-        course.setTimeSlot(timeSlot);
-        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
-        timeSlotsAllocation.get(timeSlot).add(courseId);
     }
 }

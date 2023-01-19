@@ -16,12 +16,19 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
     public SaturationDegree(Collection<Course> courses) {
         saturationDegrees = new HashMap<>();
         initializeSaturationDegrees(courses);
-        courseQueue = new PriorityQueue<>(this::getDifference);
+        courseQueue = new PriorityQueue<>(this::saturationDifference);
         initializeCourseQueue(courses);
         currentCourse = null;
     }
 
-    private int getDifference(Course course1, Course course2) {
+    /**
+     * Takes two courses and returns the difference between their saturation degrees.
+     * Ties are broken by comparing the number of neighbors of the courses.
+     * Finally, ties are broken by comparing the course ids.
+     * @return the difference between the saturation degrees of the two courses.
+     *      return value is positive if course2 has a higher saturation degree than course1.
+     */
+    private int saturationDifference(Course course1, Course course2) {
         // Difference should be course2 - course1 because we want to
         // use it in max priority queue
         int difference = 0;
@@ -46,14 +53,20 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
         }
     }
 
-    private void updateSaturationDegrees(Course course) {
+    private void updateNeighbors(Course course) {
         if (course == null || course.getTimeSlot() < 0) {
-            Log.log("SaturationDegree::updateSaturationDegree(Course): Course is null or has no time slot assigned");
+            Log.log("SaturationDegree::updateNeighbors(Course): Course is null or has no time slot assigned");
             return;
         }
         for (Course neighbor : course.getNeighbors()) {
-            saturationDegrees.put(neighbor.getLabel(),
-                    saturationDegrees.get(neighbor.getLabel()) + 1);
+            if (neighbor.getTimeSlot() < 0) {
+                saturationDegrees.put(neighbor.getLabel(),
+                        saturationDegrees.get(neighbor.getLabel()) + 1);
+
+                // If the neighbor is in the queue then we need to update its priority
+                if (courseQueue.remove(neighbor))
+                    courseQueue.add(neighbor);
+            }
         }
     }
 
@@ -76,11 +89,8 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
             }
 
             // Update saturation degrees of neighbors of current course
-            updateSaturationDegrees(currentCourse);
-
-            // Update the priority queue
-            if (courseQueue.remove(currentCourse))
-                courseQueue.add(currentCourse);
+            // and update the queue
+            updateNeighbors(currentCourse);
         }
 
         // Get the next course
