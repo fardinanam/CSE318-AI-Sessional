@@ -8,34 +8,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    private static String getConstructiveHeuristicName(int heuristicNumber) {
-        switch (heuristicNumber) {
-            case 1:
-                return "SaturationDegree";
-            case 2:
-                return "LargestDegree";
-            case 3:
-                return "LargestEnrollment";
-            case 4:
-                return "RandomOrdering";
-            default:
-                throw new IllegalArgumentException("Invalid heuristic number.");
-        }
-    }
-
-    private static String getPenaltyCalculatorName(int penaltyCalculatorNumber) {
-        switch (penaltyCalculatorNumber) {
-            case 1:
-                return "linear";
-            case 2:
-                return "exponential";
-            default:
-                throw new IllegalArgumentException("Invalid penalty calculator number.");
-        }
-    }
-
-    private static Scheduler schedule(String datasetName, String constructiveHeuristic, String penaltyCalculator) {
-        SchedulerBuilder schedulerBuilder = new SchedulerBuilder(datasetName, constructiveHeuristic, penaltyCalculator);
+    private static Scheduler schedule(String datasetName, int constructiveHeuristic, int noOfIteration, int penaltyCalculator) {
+        SchedulerBuilder schedulerBuilder = new SchedulerBuilder(datasetName, constructiveHeuristic, noOfIteration, penaltyCalculator);
         SchedulerDirector schedulerDirector = new SchedulerDirector(schedulerBuilder);
 
         try {
@@ -47,6 +21,13 @@ public class Main {
 
         Scheduler scheduler = schedulerBuilder.getBuilt();
         scheduler.schedule();
+        System.out.println(scheduler + "\n");
+        scheduler.reducePenaltyByKempeChain();
+        System.out.println("After kempe chain:");
+        System.out.println(scheduler + "\n");
+        scheduler.reducePenaltyByPairSwap();
+        System.out.println("After pair swap:");
+        System.out.println(scheduler);
         return scheduler;
     }
 
@@ -60,14 +41,8 @@ public class Main {
         System.out.println("2. Largest Degree");
         System.out.println("3. Largest Enrollment");
         System.out.println("4. Random Ordering");
-        String constructiveHeuristic = getConstructiveHeuristicName(scanner.nextInt());
+        int constructiveHeuristic = scanner.nextInt();
 
-        System.out.println("Enter Penalty Calculator (1-2): ");
-        System.out.println("1. Linear");
-        System.out.println("2. Exponential");
-        String penaltyCalculator = getPenaltyCalculatorName(scanner.nextInt());
-
-        System.out.println(schedule(datasetName, constructiveHeuristic, penaltyCalculator));
-
+        schedule(datasetName, constructiveHeuristic, 1000, 2);
     }
 }

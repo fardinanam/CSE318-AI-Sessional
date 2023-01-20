@@ -14,6 +14,6 @@ public class LinearPenaltyCalculator extends BasePenaltyCalculator {
 
         if (gap <= 5)
             return 2 * (5 - gap);
-        return gap;
+        return 0;
     }
 }

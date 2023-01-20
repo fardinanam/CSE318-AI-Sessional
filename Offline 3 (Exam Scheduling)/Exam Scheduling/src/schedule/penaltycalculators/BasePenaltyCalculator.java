@@ -45,6 +45,7 @@ public abstract class BasePenaltyCalculator implements PenaltyCalculator<Double>
         }
 
 //        Log.log("Total penalty: " + totalPenalty);
+//        Log.log("Number of Students: " + noOfStudents);
         return ((double) totalPenalty) / noOfStudents;
     }
 }

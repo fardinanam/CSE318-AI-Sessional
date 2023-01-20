@@ -7,23 +7,23 @@ import java.util.HashSet;
 
 public class ConstructiveHeuristicFactory implements
         HeuristicFactory<ConstructiveHeuristic<Integer, Course>, HashSet<Course>> {
-    private final String heuristicName;
-    public ConstructiveHeuristicFactory(String heuristicName) {
-        this.heuristicName = heuristicName;
+    private final int heuristicNo;
+    public ConstructiveHeuristicFactory(int heuristicNo) {
+        this.heuristicNo = heuristicNo;
     }
     @Override
     public ConstructiveHeuristic<Integer, Course> createHeuristic(HashSet<Course> courses) {
-        switch (heuristicName) {
-        case "SaturationDegree":
+        switch (heuristicNo) {
+        case 1:
             return new SaturationDegree(courses);
-        case "LargestDegree":
+        case 2:
             return new LargestDegree(courses);
-        case "RandomOrdering":
-            return new RandomOrdering(courses);
-        case "LargestEnrollment":
+        case 3:
             return new LargestEnrollment(courses);
+        case 4:
+            return new RandomOrdering(courses);
         default:
-            throw new IllegalArgumentException("No such heuristic");
+            throw new IllegalArgumentException("No such constructive heuristic");
         }
     }
 }

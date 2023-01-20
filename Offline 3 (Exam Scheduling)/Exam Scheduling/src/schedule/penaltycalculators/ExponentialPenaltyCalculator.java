@@ -14,6 +14,6 @@ public class ExponentialPenaltyCalculator extends BasePenaltyCalculator {
 
         if (gap <= 5)
             return (int)Math.pow(2, 5 - gap);
-        return gap;
+        return 0;
     }
 }

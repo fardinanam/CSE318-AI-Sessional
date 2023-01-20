@@ -15,6 +15,8 @@ public class SchedulerDirector implements Director {
     public void construct() throws FileNotFoundException {
         schedulerBuilder.setCourseGraph();
         schedulerBuilder.setConstructiveHeuristicFactory();
+//        schedulerBuilder.setPerturbativeHeuristicFactory();
         schedulerBuilder.setPenaltyCalculatorFactory();
+        schedulerBuilder.setNoOfIterations();
     }
 }

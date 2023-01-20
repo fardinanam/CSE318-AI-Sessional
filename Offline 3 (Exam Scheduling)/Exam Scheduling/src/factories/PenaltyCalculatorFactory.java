@@ -6,23 +6,19 @@ import schedule.penaltycalculators.LinearPenaltyCalculator;
 import schedule.penaltycalculators.PenaltyCalculator;
 
 public class PenaltyCalculatorFactory {
-    private String penaltyCalculatorName;
-    public PenaltyCalculatorFactory(String penaltyCalculatorName) {
-        this.penaltyCalculatorName = penaltyCalculatorName;
+    private int penaltyCalculatorNo;
+    public PenaltyCalculatorFactory(int penaltyCalculatorNo) {
+        this.penaltyCalculatorNo = penaltyCalculatorNo;
     }
 
-    public PenaltyCalculator<Double> getPenaltyCalculator(CourseDependencyGraph graph) {
-        if (penaltyCalculatorName == null) {
-            return null;
-        }
-
-        switch (penaltyCalculatorName) {
-            case "linear":
+    public PenaltyCalculator<Double> createPenaltyCalculator(CourseDependencyGraph graph) {
+        switch (penaltyCalculatorNo) {
+            case 1:
                 return new LinearPenaltyCalculator(graph);
-            case "exponential":
+            case 2:
                 return new ExponentialPenaltyCalculator(graph);
             default:
-                throw new IllegalArgumentException("Invalid penalty calculator name");
+                throw new IllegalArgumentException("Invalid penalty calculator number");
         }
     }
 }

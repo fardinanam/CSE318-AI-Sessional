@@ -4,13 +4,21 @@ import coursedata.Course;
 import coursedata.CourseDependencyGraph;
 import factories.ConstructiveHeuristicFactory;
 import factories.PenaltyCalculatorFactory;
+import factories.PerturbativeHeuristicFactory;
 import logs.Log;
 import schedule.heuristics.constructive.ConstructiveHeuristic;
+import schedule.heuristics.perturbative.KempeChainInterchange;
+import schedule.heuristics.perturbative.PairSwapOperator;
+import schedule.heuristics.perturbative.PerturbativeHeuristic;
+import schedule.penaltycalculators.PenaltyCalculator;
+
+import java.text.DecimalFormat;
 
 public class Scheduler {
     private CourseDependencyGraph graph;
     private ConstructiveHeuristicFactory constructiveHeuristicFactory;
     private PenaltyCalculatorFactory penaltyCalculatorFactory;
+    private int noOfIterations; // Number of iterations to run the perturbative heuristics
     public void setGraph(CourseDependencyGraph graph) {
         this.graph = graph;
     }
@@ -19,8 +27,16 @@ public class Scheduler {
         this.constructiveHeuristicFactory = constructiveHeuristicFactory;
     }
 
+//    public void setPerturbativeHeuristicFactory(PerturbativeHeuristicFactory perturbativeHeuristicFactory) {
+//        this.perturbativeHeuristicFactory = perturbativeHeuristicFactory;
+//    }
+
     public void setPenaltyCalculatorFactory(PenaltyCalculatorFactory penaltyCalculatorFactory) {
         this.penaltyCalculatorFactory = penaltyCalculatorFactory;
+    }
+
+    public void setNoOfIterations(int noOfIterations) {
+        this.noOfIterations = noOfIterations;
     }
 
     /**
@@ -32,7 +48,7 @@ public class Scheduler {
     public void assignCourseTimeSlot(int courseId) {
         Course course = graph.getNode(courseId);
 
-        boolean[] occupiedTimeSlots = new boolean[graph.getNoOfCourses()];
+        boolean[] occupiedTimeSlots = new boolean[graph.getNoOfNodes()];
         for (Course neighbor : course.getNeighbors()) {
             if (neighbor.getTimeSlot() > 0) {
                 occupiedTimeSlots[neighbor.getTimeSlot() - 1] = true;
@@ -58,12 +74,33 @@ public class Scheduler {
         }
     }
 
+    public void reducePenaltyByKempeChain() {
+        if (graph == null || penaltyCalculatorFactory == null)
+            return;
+
+        PenaltyCalculator<Double> penaltyCalculator = penaltyCalculatorFactory.createPenaltyCalculator(graph);
+        PerturbativeHeuristic<CourseDependencyGraph> perturbativeHeuristic = new KempeChainInterchange(graph, noOfIterations);
+
+        // apply kempechain interchange 4 times
+        for (int i = 0; i < 4; i++) {
+            perturbativeHeuristic.reducePenalty(penaltyCalculator);
+        }
+    }
+
+    public void reducePenaltyByPairSwap() {
+        if (graph == null || penaltyCalculatorFactory == null)
+            return;
+
+        PenaltyCalculator<Double> penaltyCalculator = penaltyCalculatorFactory.createPenaltyCalculator(graph);
+        PerturbativeHeuristic<CourseDependencyGraph> perturbativeHeuristic = new PairSwapOperator(graph, noOfIterations);
+        perturbativeHeuristic.reducePenalty(penaltyCalculator);
+    }
     public double getPenaltyAvg() {
         if (penaltyCalculatorFactory == null) {
             Log.log("Penalty calculator not set");
             return 0;
         }
-        return penaltyCalculatorFactory.getPenaltyCalculator(graph).calculatePenaltyAvg();
+        return penaltyCalculatorFactory.createPenaltyCalculator(graph).calculatePenaltyAvg();
     }
 
     public CourseDependencyGraph getGraph() {
@@ -72,9 +109,10 @@ public class Scheduler {
 
     @Override
     public String toString() {
+        DecimalFormat df = new DecimalFormat("#.##");
         StringBuilder sb = new StringBuilder();
         sb.append(graph.toString()).append("\n");
-        sb.append("Average penalty: ").append(getPenaltyAvg());
+        sb.append("Average penalty: ").append(df.format(getPenaltyAvg()));
 
         return sb.toString();
     }

@@ -71,12 +71,12 @@ public class Course implements Node<Integer> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Course: ").append(label).append("\n");
-        sb.append("neighbors: ");
+        sb.append("Course: ").append(label);
+        sb.append(" ->neighbors: ");
         for (Course neighbor : neighbors) {
             sb.append(" ").append(neighbor.label);
         }
-
+        sb.append("\n");
         return sb.toString();
     }
 }

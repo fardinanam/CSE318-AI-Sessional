@@ -3,10 +3,7 @@ package schedule.heuristics.constructive;
 import coursedata.Course;
 import logs.Log;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> {
     private final PriorityQueue<Course> courseQueue;
@@ -60,8 +57,8 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
         }
         for (Course neighbor : course.getNeighbors()) {
             if (neighbor.getTimeSlot() < 0) {
-                saturationDegrees.put(neighbor.getLabel(),
-                        saturationDegrees.get(neighbor.getLabel()) + 1);
+                int neighborLabel = neighbor.getLabel();
+                saturationDegrees.put(neighborLabel, saturationDegrees.get(neighborLabel) + 1);
 
                 // If the neighbor is in the queue then we need to update its priority
                 if (courseQueue.remove(neighbor))

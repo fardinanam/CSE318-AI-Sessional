@@ -10,12 +10,10 @@ import java.util.LinkedList;
 public class CourseDependencyGraph implements Graph<Integer, Course> {
     private final HashMap<Integer, Course> courses;
     private final ArrayList<Student> students;
-    private final HashMap<Integer, LinkedList<Integer>> timeSlotsAllocation;
 
     public CourseDependencyGraph() {
         students = new ArrayList<>();
         courses = new HashMap<>();
-        timeSlotsAllocation = new HashMap<>();
     }
     @Override
     public void addNode(Integer courseId) {
@@ -66,21 +64,36 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
         return students.size();
     }
 
-    public int getNoOfCourses() {
+    @Override
+    public int getNoOfNodes() {
         return courses.size();
     }
 
     public void assignCourseTimeSlot(int courseId, int timeSlot) {
         Course course = courses.get(courseId);
         course.setTimeSlot(timeSlot);
-        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
-        timeSlotsAllocation.get(timeSlot).add(courseId);
+//        course.setTimeSlot(timeSlot);
+//        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
+//        timeSlotsAllocation.get(timeSlot).add(courseId);
+    }
+
+    public HashMap<Integer, LinkedList<Integer>> getTimeSlots() {
+        HashMap<Integer, LinkedList<Integer>> timeSlots = new HashMap<>();
+        for (Course course : courses.values()) {
+            int courseTimeSlot = course.getTimeSlot();
+            timeSlots.putIfAbsent(courseTimeSlot, new LinkedList<>());
+            timeSlots.get(courseTimeSlot).add(course.getLabel());
+        }
+
+        return timeSlots;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int timeSlotCount = 0;
+
+        HashMap<Integer, LinkedList<Integer>> timeSlotsAllocation = getTimeSlots();
 
         // append time slots allocation
         for (int timeSlot : timeSlotsAllocation.keySet()) {
