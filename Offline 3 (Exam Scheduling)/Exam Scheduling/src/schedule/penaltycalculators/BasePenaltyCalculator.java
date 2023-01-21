@@ -2,7 +2,6 @@ package schedule.penaltycalculators;
 
 import coursedata.CourseDependencyGraph;
 import coursedata.Student;
-import logs.Log;
 
 public abstract class BasePenaltyCalculator implements PenaltyCalculator<Double> {
     private final CourseDependencyGraph graph;
@@ -37,15 +36,12 @@ public abstract class BasePenaltyCalculator implements PenaltyCalculator<Double>
     @Override
     public Double calculatePenaltyAvg() {
         int noOfStudents = graph.getTotalStudents();
-//        Log.log("Total students: " + noOfStudents);
         int totalPenalty = 0;
 
         for (Student student : graph.getStudents()) {
             totalPenalty += calculateStudentPenalty(student);
         }
 
-//        Log.log("Total penalty: " + totalPenalty);
-//        Log.log("Number of Students: " + noOfStudents);
         return ((double) totalPenalty) / noOfStudents;
     }
 }

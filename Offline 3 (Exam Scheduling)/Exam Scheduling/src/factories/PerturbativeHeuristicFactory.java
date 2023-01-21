@@ -2,6 +2,7 @@ package factories;
 
 import coursedata.CourseDependencyGraph;
 import schedule.heuristics.perturbative.KempeChainInterchange;
+import schedule.heuristics.perturbative.PairSwapOperator;
 import schedule.heuristics.perturbative.PerturbativeHeuristic;
 
 public class PerturbativeHeuristicFactory implements HeuristicFactory<PerturbativeHeuristic<CourseDependencyGraph>, CourseDependencyGraph> {
@@ -18,6 +19,8 @@ public class PerturbativeHeuristicFactory implements HeuristicFactory<Perturbati
         switch (heuristicNo) {
         case 1:
             return new KempeChainInterchange(graph, noOfIterations);
+        case 2:
+            return new PairSwapOperator(graph, noOfIterations);
         default:
             throw new IllegalArgumentException("No such perturbative heuristic");
         }

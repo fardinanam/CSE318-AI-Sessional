@@ -6,7 +6,6 @@ import logs.Log;
 import schedule.penaltycalculators.PenaltyCalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -72,8 +71,6 @@ public class KempeChainInterchange implements PerturbativeHeuristic<CourseDepend
 
         // insert course1 to the visited map and in the chain.
         ArrayList<Course> chain = new ArrayList<>();
-        chain.add(course1);
-        visited.add(course1.getLabel());
 
         // find the full chain of courses that are connected to course1 and course2
         getKempeChain(course2, timeSlot1, timeSlot2, chain, visited);
@@ -95,18 +92,23 @@ public class KempeChainInterchange implements PerturbativeHeuristic<CourseDepend
         while (noOfIterations < maxNoOfIterations) {
             int randomIndex = (int) (Math.random() * courses.size());
             Course course = courses.get(randomIndex);
+            ArrayList<Course> neighbors = new ArrayList<>(course.getNeighbors());
 
-            for (Course neighbor : course.getNeighbors()) {
-                // swap the time slots of the courses in the chain
-                // of the two courses. If penalty is no reduced, revert the swap.
-                applyKempeChainInterchange(course, neighbor);
-                if (currentPenalty > penaltyCalculator.calculatePenaltyAvg()) {
-                    currentPenalty = penaltyCalculator.calculatePenaltyAvg();
-                } else {
-                    applyKempeChainInterchange(course, neighbor);
-                }
-                noOfIterations++;
+            if (neighbors.size() == 0) {
+                continue;
             }
+
+            Course neighbor = neighbors.get((int) (Math.random() * neighbors.size()));
+
+            // swap the time slots of the courses in the chain
+            // of the two courses. If penalty is no reduced, revert the swap.
+            applyKempeChainInterchange(course, neighbor);
+            if (currentPenalty > penaltyCalculator.calculatePenaltyAvg()) {
+                currentPenalty = penaltyCalculator.calculatePenaltyAvg();
+            } else {
+                applyKempeChainInterchange(course, neighbor);
+            }
+            noOfIterations++;
         }
 
         Log.log("Total kempe chain iterations: " + noOfIterations);

@@ -72,9 +72,6 @@ public class CourseDependencyGraph implements Graph<Integer, Course> {
     public void assignCourseTimeSlot(int courseId, int timeSlot) {
         Course course = courses.get(courseId);
         course.setTimeSlot(timeSlot);
-//        course.setTimeSlot(timeSlot);
-//        timeSlotsAllocation.putIfAbsent(timeSlot, new LinkedList<>());
-//        timeSlotsAllocation.get(timeSlot).add(courseId);
     }
 
     public HashMap<Integer, LinkedList<Integer>> getTimeSlots() {

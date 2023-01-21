@@ -21,13 +21,21 @@ public class Main {
 
         Scheduler scheduler = schedulerBuilder.getBuilt();
         scheduler.schedule();
-        System.out.println(scheduler + "\n");
+        System.out.println(scheduler);
+        if (scheduler.isConflictFree())
+            System.out.println("Schedule is conflict free" + "\n");
+
         scheduler.reducePenaltyByKempeChain();
         System.out.println("After kempe chain:");
-        System.out.println(scheduler + "\n");
+        System.out.println(scheduler);
+        if (scheduler.isConflictFree())
+            System.out.println("Schedule is conflict free" + "\n");
+
         scheduler.reducePenaltyByPairSwap();
         System.out.println("After pair swap:");
         System.out.println(scheduler);
+        if (scheduler.isConflictFree())
+            System.out.println("Schedule is conflict free");
         return scheduler;
     }
 

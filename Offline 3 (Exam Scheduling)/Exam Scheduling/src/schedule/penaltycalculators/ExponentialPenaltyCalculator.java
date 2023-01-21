@@ -1,8 +1,6 @@
 package schedule.penaltycalculators;
 
 import coursedata.CourseDependencyGraph;
-import logs.Log;
-
 public class ExponentialPenaltyCalculator extends BasePenaltyCalculator {
     public ExponentialPenaltyCalculator(CourseDependencyGraph graph) {
         super(graph);

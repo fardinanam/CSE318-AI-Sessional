@@ -5,12 +5,10 @@ import graph.Node;
 import java.util.HashSet;
 
 public class Course implements Node<Integer> {
-    private int label;
+    private final int label;
     private int timeSlot;
     private int noOfStudents;
-    // TODO: if two students are enrolled in same two courses then
-    // using set will not work. Have a look at it and change if necessary
-    private HashSet<Course> neighbors;
+    private final HashSet<Course> neighbors;
 
     public Course(int label) {
         this.label = label;

@@ -3,7 +3,6 @@ package builders;
 import directors.CourseGraphDirector;
 import factories.ConstructiveHeuristicFactory;
 import factories.PenaltyCalculatorFactory;
-import factories.PerturbativeHeuristicFactory;
 import schedule.util.Scheduler;
 
 import java.io.FileNotFoundException;
@@ -29,10 +28,6 @@ public class SchedulerBuilder implements Builder<Scheduler> {
         scheduler.setConstructiveHeuristicFactory(heuristicFactory);
     }
 
-//    public void setPerturbativeHeuristicFactory() {
-//        PerturbativeHeuristicFactory heuristicFactory = new PerturbativeHeuristicFactory(perturbativeHeuristicNo, noOfIterations);
-//        scheduler.setPerturbativeHeuristicFactory(heuristicFactory);
-//    }
     public void setNoOfIterations() {
         scheduler.setNoOfIterations(noOfIterations);
     }

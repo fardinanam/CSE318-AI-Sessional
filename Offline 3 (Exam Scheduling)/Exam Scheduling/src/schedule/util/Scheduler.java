@@ -4,7 +4,6 @@ import coursedata.Course;
 import coursedata.CourseDependencyGraph;
 import factories.ConstructiveHeuristicFactory;
 import factories.PenaltyCalculatorFactory;
-import factories.PerturbativeHeuristicFactory;
 import logs.Log;
 import schedule.heuristics.constructive.ConstructiveHeuristic;
 import schedule.heuristics.perturbative.KempeChainInterchange;
@@ -26,10 +25,6 @@ public class Scheduler {
     public void setConstructiveHeuristicFactory(ConstructiveHeuristicFactory constructiveHeuristicFactory) {
         this.constructiveHeuristicFactory = constructiveHeuristicFactory;
     }
-
-//    public void setPerturbativeHeuristicFactory(PerturbativeHeuristicFactory perturbativeHeuristicFactory) {
-//        this.perturbativeHeuristicFactory = perturbativeHeuristicFactory;
-//    }
 
     public void setPenaltyCalculatorFactory(PenaltyCalculatorFactory penaltyCalculatorFactory) {
         this.penaltyCalculatorFactory = penaltyCalculatorFactory;
@@ -101,6 +96,18 @@ public class Scheduler {
             return 0;
         }
         return penaltyCalculatorFactory.createPenaltyCalculator(graph).calculatePenaltyAvg();
+    }
+
+    public boolean isConflictFree() {
+        for (Course course : graph.getCourses()) {
+            for (Course neighbor : course.getNeighbors()) {
+                if (course.getTimeSlot() == neighbor.getTimeSlot()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public CourseDependencyGraph getGraph() {
