@@ -103,8 +103,9 @@ public class KempeChainInterchange implements PerturbativeHeuristic<CourseDepend
             // swap the time slots of the courses in the chain
             // of the two courses. If penalty is no reduced, revert the swap.
             applyKempeChainInterchange(course, neighbor);
-            if (currentPenalty > penaltyCalculator.calculatePenaltyAvg()) {
-                currentPenalty = penaltyCalculator.calculatePenaltyAvg();
+            double newPenalty = penaltyCalculator.calculatePenaltyAvg();
+            if (currentPenalty > newPenalty) {
+                currentPenalty = newPenalty;
             } else {
                 applyKempeChainInterchange(course, neighbor);
             }

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> {
     private final PriorityQueue<Course> courseQueue;
-    private final HashMap<Integer, Integer> saturationDegrees;
+    private final HashMap<Integer, HashSet<Integer>> saturationDegrees;
     private Course currentCourse;
 
     public SaturationDegree(Collection<Course> courses) {
@@ -30,8 +30,8 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
         // use it in max priority queue
         int difference = 0;
 
-        difference = saturationDegrees.get(course2.getLabel())
-                - saturationDegrees.get(course1.getLabel());
+        difference = saturationDegrees.get(course2.getLabel()).size()
+                - saturationDegrees.get(course1.getLabel()).size();
         if (difference != 0)
             return difference;
 
@@ -46,7 +46,7 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
 
     private void initializeSaturationDegrees(Collection<Course> courses) {
         for (Course course : courses) {
-            saturationDegrees.put(course.getLabel(), 0);
+            saturationDegrees.put(course.getLabel(), new HashSet<>());
         }
     }
 
@@ -58,7 +58,7 @@ public class SaturationDegree implements ConstructiveHeuristic<Integer, Course> 
         for (Course neighbor : course.getNeighbors()) {
             if (neighbor.getTimeSlot() < 0) {
                 int neighborLabel = neighbor.getLabel();
-                saturationDegrees.put(neighborLabel, saturationDegrees.get(neighborLabel) + 1);
+                saturationDegrees.get(neighborLabel).add(course.getTimeSlot());
 
                 // If the neighbor is in the queue then we need to update its priority
                 if (courseQueue.remove(neighbor))
