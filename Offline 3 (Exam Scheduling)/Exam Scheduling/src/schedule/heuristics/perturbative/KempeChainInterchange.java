@@ -8,13 +8,16 @@ import schedule.penaltycalculators.PenaltyCalculator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 public class KempeChainInterchange implements PerturbativeHeuristic<CourseDependencyGraph> {
     private final CourseDependencyGraph graph;
     private final int maxNoOfIterations;
+    private final Random random;
     public KempeChainInterchange(CourseDependencyGraph graph, int maxNoOfIterations) {
         this.graph = graph;
         this.maxNoOfIterations = maxNoOfIterations;
+        this.random = new Random();
     }
 
     /**
@@ -90,7 +93,7 @@ public class KempeChainInterchange implements PerturbativeHeuristic<CourseDepend
         // of the courses in the chain
         int noOfIterations = 0;
         while (noOfIterations < maxNoOfIterations) {
-            int randomIndex = (int) (Math.random() * courses.size());
+            int randomIndex = random.nextInt(courses.size());
             Course course = courses.get(randomIndex);
             ArrayList<Course> neighbors = new ArrayList<>(course.getNeighbors());
 

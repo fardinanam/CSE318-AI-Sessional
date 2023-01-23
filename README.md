@@ -7,7 +7,7 @@
 
 ### Latin Square Completion Problem (Offline-2)
 - [Problem Specification](https://github.com/fardinanam/CSE318-AI-Sessional/blob/master/Offline%202%20(Latin%20Square%20Completion%20Problem)/offline-2-CSP.pdf)
-- [Solution using Backtracking Search Heuristics](https://github.com/fardinanam/CSE318-AI-Sessional/tree/master/Offline%202%20(Latin%20Square%20Completion%20Problem)/Latin%20Square%20Completion%20Problem%20Solver/src)
+- [Solution using Backtracking and Forward Checking](https://github.com/fardinanam/CSE318-AI-Sessional/tree/master/Offline%202%20(Latin%20Square%20Completion%20Problem)/Latin%20Square%20Completion%20Problem%20Solver/src)
 
 ### Exam Scheduling (Offline-3)
 - [Problem Specification](https://github.com/fardinanam/CSE318-AI-Sessional/blob/master/Offline%203%20(Exam%20Scheduling)/offline-3-on-local-search.pdf)

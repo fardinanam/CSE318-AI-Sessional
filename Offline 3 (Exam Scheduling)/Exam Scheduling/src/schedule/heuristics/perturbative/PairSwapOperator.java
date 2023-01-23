@@ -7,16 +7,22 @@ import schedule.penaltycalculators.PenaltyCalculator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 public class PairSwapOperator implements PerturbativeHeuristic<CourseDependencyGraph> {
     private final CourseDependencyGraph graph;
     private final int maxNoOfIterations;
-    private final KempeChainInterchange kempeChainInterchange;
     public PairSwapOperator(CourseDependencyGraph graph, int maxNoOfIterations) {
         this.graph = graph;
         this.maxNoOfIterations = maxNoOfIterations;
-        kempeChainInterchange = new KempeChainInterchange(graph, maxNoOfIterations);
+    }
+
+    private boolean isDisjointWithTimeSlot(Course course, int timeSlot) {
+        for (Course neighbor : course.getNeighbors()) {
+            if (neighbor.getTimeSlot() == timeSlot) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -44,15 +50,10 @@ public class PairSwapOperator implements PerturbativeHeuristic<CourseDependencyG
                 }
 
                 noOfIterations++;
-                ArrayList<Course> chain1 = new ArrayList<>();
-                ArrayList<Course> chain2 = new ArrayList<>();
-                HashSet<Integer> visited1 = new HashSet<>();
-                HashSet<Integer> visited2 = new HashSet<>();
 
-                kempeChainInterchange.getKempeChain(course1, timeSlot1, timeSlot2, chain1, visited1);
-                kempeChainInterchange.getKempeChain(course2, timeSlot1, timeSlot2, chain2, visited2);
-
-                if (chain1.size() == 1 && chain2.size() == 1) {
+                // if the pair of courses are disjoint with the time slots they are assigned to
+                // swap their time slots
+                if (isDisjointWithTimeSlot(course1, timeSlot2) && isDisjointWithTimeSlot(course2, timeSlot1)) {
                     course1.setTimeSlot(timeSlot2);
                     course2.setTimeSlot(timeSlot1);
 
