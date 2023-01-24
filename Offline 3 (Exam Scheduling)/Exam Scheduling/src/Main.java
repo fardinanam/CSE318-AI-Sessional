@@ -1,5 +1,4 @@
 import builders.SchedulerBuilder;
-import coursedata.CourseDependencyGraph;
 import directors.SchedulerDirector;
 import logs.Log;
 import schedule.util.Scheduler;
