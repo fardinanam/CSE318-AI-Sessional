@@ -178,18 +178,18 @@ while True:
         mouse = pygame.mouse.get_pos()
 
         # If AI button clicked, make an AI move
-        # if aiButton.collidepoint(mouse) and not lost:
-        #     move = ai.make_safe_move()
-        #     if move is None:
-        #         move = ai.make_random_move()
-        #         if move is None:
-        #             flags = ai.mines.copy()
-        #             print("No moves left to make.")
-        #         else:
-        #             print("No known safe moves, AI making random move.")
-        #     else:
-        #         print("AI making safe move.")
-        #     time.sleep(0.2)
+        if aiButton.collidepoint(mouse) and not lost:
+            move = ai.make_safe_move()
+            if move is None:
+                move = ai.make_random_move()
+                if move is None:
+                    flags = ai.mines.copy()
+                    print("No moves left to make.")
+                else:
+                    print("No known safe moves, AI making random move.")
+            else:
+                print("AI making safe move.")
+            time.sleep(0.2)
 
         # Reset game state
         if resetButton.collidepoint(mouse):
@@ -201,13 +201,13 @@ while True:
             continue
 
         # User-made move
-        # elif not lost:
-        for i in range(HEIGHT):
-            for j in range(WIDTH):
-                if (cells[i][j].collidepoint(mouse)
-                        and (i, j) not in flags
-                        and (i, j) not in revealed):
-                    move = (i, j)
+        elif not lost:
+            for i in range(HEIGHT):
+                for j in range(WIDTH):
+                    if (cells[i][j].collidepoint(mouse)
+                            and (i, j) not in flags
+                            and (i, j) not in revealed):
+                        move = (i, j)
 
     # Make move and update AI knowledge
     if move:
@@ -216,6 +216,6 @@ while True:
         else:
             nearby = game.nearby_mines(move)
             revealed.add(move)
-            # ai.add_knowledge(move, nearby)
+            ai.add_knowledge(move, nearby)
 
     pygame.display.flip()
