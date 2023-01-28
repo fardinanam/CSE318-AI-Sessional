@@ -2,7 +2,7 @@ import pygame
 import sys
 import time
 
-from minesweeper import Minesweeper
+from minesweeper import Minesweeper, MinesweeperAI
 HEIGHT = 8
 WIDTH = 8
 MINES = 8
@@ -38,7 +38,7 @@ mine = pygame.transform.scale(mine, (cell_size, cell_size))
 
 # Create game and AI agent
 game = Minesweeper(height=HEIGHT, width=WIDTH, mines=MINES)
-# ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
+ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
 
 # Keep track of revealed cells, flagged cells, and if a mine was hit
 revealed = set()
