@@ -190,12 +190,11 @@ while True:
                 print("AI making safe move.")
 
             time.sleep(0.2)
-            flags = ai.mines.copy()
 
         # Reset game state
         if resetButton.collidepoint(mouse):
             game = Minesweeper(height=HEIGHT, width=WIDTH, mines=MINES)
-            # ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
+            ai = MinesweeperAI(height=HEIGHT, width=WIDTH)
             revealed = set()
             flags = set()
             lost = False
@@ -218,5 +217,6 @@ while True:
             nearby = game.nearby_mines(move)
             revealed.add(move)
             ai.add_knowledge(move, nearby)
+            flags = ai.mines.copy()
 
     pygame.display.flip()

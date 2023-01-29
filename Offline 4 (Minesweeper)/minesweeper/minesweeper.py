@@ -213,6 +213,59 @@ class MinesweeperAI():
 
         return None if len(neighbors) == 0 else Sentence(neighbors, count)
     
+    def replace_with_subsets(self, sentence):
+        # knowledge_copy = self.knowledge.copy()
+
+        # for other_sentence in knowledge_copy:
+        #     if sentence != other_sentence:
+        #         # remove the other sentence from the knowledge
+        #         self.knowledge.remove(other_sentence)
+
+        #         larger_sentence = None
+        #         smaller_sentence = None
+
+        #         if len(sentence.cells) > len(other_sentence.cells):
+        #             larger_sentence = sentence
+        #             smaller_sentence = other_sentence
+        #         else: 
+        #             larger_sentence = other_sentence
+        #             smaller_sentence = sentence
+
+        #         if smaller_sentence.cells.issubset(larger_sentence.cells):
+        #             # make a new sentence with the difference of the two sets
+        #             # add the difference sentence
+        #             new_cells = larger_sentence.cells - smaller_sentence.cells
+        #             new_count = larger_sentence.count - smaller_sentence.count
+        #             new_sentence = Sentence(new_cells, new_count)
+                    
+        #             if new_sentence not in self.knowledge:
+        #                 self.knowledge.append(new_sentence)
+        
+        #             #  add the smaller sentence to the knowledge
+        #             if smaller_sentence not in self.knowledge:
+        #                 self.knowledge.append(smaller_sentence)
+                    
+        #         else:
+        #             # add the other sentence back to the knowledge
+        #             self.knowledge.append(other_sentence)
+
+        # # if the passed sentence is not in the knowledge, add it
+        # if sentence not in self.knowledge:
+        #     self.knowledge.append(sentence)
+        knowledge_copy = self.knowledge.copy()
+
+        for other_sentence in knowledge_copy:
+            new_sentence = None
+
+            if sentence.cells.issubset(other_sentence.cells):
+                new_sentence = Sentence(other_sentence.cells - sentence.cells, other_sentence.count - sentence.count)
+            
+            elif other_sentence.cells.issubset(sentence.cells):
+                new_sentence = Sentence(sentence.cells - other_sentence.cells, sentence.count - other_sentence.count)
+
+            if new_sentence and new_sentence not in self.knowledge:
+                self.knowledge.append(new_sentence)
+    
     def infer_and_mark(self):
         """
         infers new sentences and marks cells as safe or mines.
@@ -222,8 +275,8 @@ class MinesweeperAI():
         knowledge_copy = self.knowledge.copy()
 
         for sentence in knowledge_copy:
-            known_mines = sentence.known_mines()
-            known_safes = sentence.known_safes()
+            known_mines = sentence.known_mines().copy() if sentence.known_mines() else None
+            known_safes = sentence.known_safes().copy() if sentence.known_safes() else None
 
             if known_mines:
                 self.knowledge.remove(sentence)
@@ -261,12 +314,12 @@ class MinesweeperAI():
         new_sentence = self.make_sentence(cell, count)
 
         if new_sentence and new_sentence not in self.knowledge:
+            self.replace_with_subsets(new_sentence)
             self.knowledge.append(new_sentence)
+            print(f"Added new knowledge: {new_sentence}\n")
             
-            while self.infer_and_mark():
-                pass
-
-        print(f"Added new knowledge: {new_sentence}\n")
+        while self.infer_and_mark():
+            pass
 
     def make_safe_move(self):
         """
