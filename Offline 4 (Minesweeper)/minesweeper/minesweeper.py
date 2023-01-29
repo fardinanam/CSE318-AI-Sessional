@@ -110,7 +110,7 @@ class Sentence():
         if len(self.cells) == self.count:
             return self.cells
         else:
-            return set()
+            return None
 
     def known_safes(self):
         """
@@ -118,6 +118,8 @@ class Sentence():
         """
         if self.count == 0:
             return self.cells
+        else:
+            return None
 
     def mark_mine(self, cell):
         """
@@ -181,23 +183,62 @@ class MinesweeperAI():
         """
         returns True if a cell is either safe or a mine
         """
+        print(f"Known mines: {self.mines}")
+        print(f"Known safes: {self.safes}")
+
         return cell in self.safes or cell in self.mines
     
-    def unknown_neighbors(self, cell):
+    def make_sentence(self, cell, count):
         """
-        returns a set of neighbors of a cell that are neither safe nor mines
+        returns a sentence of all unknown neighbors of a cell
         """
         neighbors = set()
-        (i, j) = cell
-        if i > 0 and not self.is_known((i - 1, j)):
-            neighbors.add((i - 1, j))
-        if i < self.height - 1 and not self.is_known((i + 1, j)):
-            neighbors.add((i + 1, j))
-        if j > 0 and not self.is_known((i, j - 1)):
-            neighbors.add((i, j - 1))
-        if j < self.width - 1 and not self.is_known((i, j + 1)):
-            neighbors.add((i, j + 1))
-        return neighbors
+        
+        for i in range(cell[0] - 1, cell[0] + 2):
+            for j in range(cell[1] - 1, cell[1] + 2):
+                # Ignore the cell itself and the cells in the corners
+                if (i, j) == cell\
+                or (i, j) == (cell[0] - 1, cell[1] - 1) or (i, j) == (cell[0] - 1, cell[1] + 1)\
+                or (i, j) == (cell[0] + 1, cell[1] - 1) or (i, j) == (cell[0] + 1, cell[1] + 1):
+                    continue
+                
+                if 0 <= i < self.height and 0 <= j < self.width:
+                    # if cell is a mine, decrement count
+                    if (i, j) in self.mines:
+                        count -= 1
+                    # if cell is safe, add do nothing
+                    # for any other case, add cell to neighbors
+                    elif (i, j) not in self.safes:
+                        neighbors.add((i, j))
+
+        return None if len(neighbors) == 0 else Sentence(neighbors, count)
+    
+    def infer_and_mark(self):
+        """
+        infers new sentences and marks cells as safe or mines.
+        returns True if a new inference was made, False otherwise
+        """
+        has_infered = False
+        knowledge_copy = self.knowledge.copy()
+
+        for sentence in knowledge_copy:
+            known_mines = sentence.known_mines()
+            known_safes = sentence.known_safes()
+
+            if known_mines:
+                self.knowledge.remove(sentence)
+                for cell in known_mines:
+                    self.mark_mine(cell)
+                has_infered = True
+
+            if known_safes:
+                self.knowledge.remove(sentence)
+                for cell in known_safes:
+                    self.mark_safe(cell)
+                has_infered = True
+
+        return has_infered
+            
 
     def add_knowledge(self, cell, count):
         """
@@ -217,12 +258,15 @@ class MinesweeperAI():
         self.moves_made.add(cell)
         self.mark_safe(cell)
 
-        unknown_neighbors = self.unknown_neighbors(cell)
-        new_sentence = Sentence(unknown_neighbors, count)
+        new_sentence = self.make_sentence(cell, count)
 
-        if new_sentence not in self.knowledge:
+        if new_sentence and new_sentence not in self.knowledge:
             self.knowledge.append(new_sentence)
-        # TODO: mark any additional cells as safe or as mines
+            
+            while self.infer_and_mark():
+                pass
+
+        print(f"Added new knowledge: {new_sentence}\n")
 
     def make_safe_move(self):
         """

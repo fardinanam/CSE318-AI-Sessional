@@ -183,13 +183,14 @@ while True:
             if move is None:
                 move = ai.make_random_move()
                 if move is None:
-                    flags = ai.mines.copy()
                     print("No moves left to make.")
                 else:
                     print("No known safe moves, AI making random move.")
             else:
                 print("AI making safe move.")
+
             time.sleep(0.2)
+            flags = ai.mines.copy()
 
         # Reset game state
         if resetButton.collidepoint(mouse):
