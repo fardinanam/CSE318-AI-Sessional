@@ -12,3 +12,7 @@
 ### Exam Scheduling (Offline-3)
 - [Problem Specification](https://github.com/fardinanam/CSE318-AI-Sessional/blob/master/Offline%203%20(Exam%20Scheduling)/offline-3-on-local-search.pdf)
 - [Solution using Local Search Heuristics](https://github.com/fardinanam/CSE318-AI-Sessional/tree/master/Offline%203%20(Exam%20Scheduling)/Exam%20Scheduling)
+
+### Minesweeper AI (Offline-4)
+- [Problem Specification](Offline%204%20(Minesweeper)/Specifications/Minesweeper.pdf)
+- [Solution using Knowledge Engineering](Offline%204%20(Minesweeper)/minesweeper)

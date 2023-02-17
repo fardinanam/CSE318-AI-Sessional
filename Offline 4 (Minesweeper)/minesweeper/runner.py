@@ -3,9 +3,9 @@ import sys
 import time
 
 from minesweeper import Minesweeper, MinesweeperAI
-HEIGHT = 8
-WIDTH = 8
-MINES = 8
+HEIGHT = 16
+WIDTH = 16
+MINES = 40
 
 # Colors
 BLACK = (0, 0, 0)
@@ -14,7 +14,7 @@ WHITE = (255, 255, 255)
 
 # Create game
 pygame.init()
-size = width, height = 600, 400
+size = width, height = 75 * WIDTH, 50 * HEIGHT
 screen = pygame.display.set_mode(size)
 
 # Fonts
